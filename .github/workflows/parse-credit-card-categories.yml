@@ -1,0 +1,106 @@
+name: Parse Credit Card Categories
+
+on:
+  schedule:
+    # Run on the 1st of each month at 9 AM UTC
+    - cron: '0 9 1 * *'
+  workflow_dispatch: # Allow manual trigger
+    inputs:
+      force_run:
+        description: 'Force run the category parser'
+        required: false
+        default: 'false'
+        type: boolean
+
+jobs:
+  parse-categories:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Build TypeScript
+      run: npm run build
+      
+    - name: Parse credit card categories
+      id: parse-categories
+      run: |
+        echo "Starting category parsing..."
+        npm start > categories_output.txt 2>&1
+        echo "Category parsing completed"
+        
+        # Extract JSON from output and save to file
+        cat categories_output.txt | grep -A 50 "Results:" | tail -n +2 > categories.json || echo "{}" > categories.json
+        
+        # Set outputs for later steps
+        echo "results_file=categories.json" >> $GITHUB_OUTPUT
+        
+        # Show results in logs
+        echo "=== PARSING RESULTS ==="
+        cat categories.json
+        
+    - name: Upload results as artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: credit-card-categories-${{ github.run_number }}
+        path: |
+          categories.json
+          categories_output.txt
+        retention-days: 90
+        
+    - name: Create summary
+      run: |
+        echo "# Credit Card Categories Parsing Results" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "**Run Date:** $(date -u)" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        
+        # Parse and display results in summary
+        if [ -f categories.json ] && [ -s categories.json ]; then
+          echo "## Discover Categories" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`json" >> $GITHUB_STEP_SUMMARY
+          cat categories.json | jq '.discover // empty' 2>/dev/null || echo "Failed to parse Discover data" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          echo "## Chase Freedom Categories" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`json" >> $GITHUB_STEP_SUMMARY
+          cat categories.json | jq '.chase // empty' 2>/dev/null || echo "Failed to parse Chase data" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "❌ No results found or parsing failed" >> $GITHUB_STEP_SUMMARY
+        fi
+        
+    - name: Check for changes and create issue (optional)
+      if: success()
+      run: |
+        echo "Categories parsed successfully!"
+        echo "Results have been uploaded as artifacts and are available in the job summary."
+        
+        # Optional: You could add logic here to:
+        # - Compare with previous results
+        # - Create GitHub issues for new quarters
+        # - Send notifications
+        # - Update a README file
+        
+    - name: Handle parsing failure
+      if: failure()
+      run: |
+        echo "❌ Category parsing failed!" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "Check the job logs for details." >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "## Error Output" >> $GITHUB_STEP_SUMMARY
+        echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+        cat categories_output.txt 2>/dev/null || echo "No output file found" >> $GITHUB_STEP_SUMMARY
+        echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
