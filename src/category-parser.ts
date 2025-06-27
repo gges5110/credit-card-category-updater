@@ -31,24 +31,44 @@ class CreditCardCategoryParser {
 
     async parseDiscoverCategories(): Promise<CategoryResult> {
         try {
-            const html = await this.fetchHtml('https://www.discover.com/credit-cards/cashback-bonus/cashback-calendar');
-            const $ = cheerio.load(html);
-            
-            let results: string[] = [];
-            let currentQuarter = 'Current Quarter';
-
-            // Fallback to Cheerio parsing
-            $('.offer-name').each((_, el) => {
-                const text = $(el).text().trim();
-                if (text && text.length > 2) {
-                    results.push(text);
+            const response = await fetch('https://card.discover.com/cardissuer/public/rewards/offer/v1/offer-categories', {
+                headers: {
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
                 }
             });
             
-            // Debug: log found elements
-            console.log('Discover categories found:', results.length);
-            if (results.length > 0) {
-                console.log('First few results:', results.slice(0, 3));
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+            
+            const data = await response.json();
+            
+            let results: string[] = [];
+            let currentQuarter = 'Current Quarter';
+            
+            // Extract categories from JSON response
+            if (data && data.quarters && Array.isArray(data.quarters)) {
+                // Find the next quarter based on current date
+                const now = new Date();
+                const nextQuarterData = data.quarters.find((quarter: any) => {
+                    if (quarter.quarterLabelStartDate) {
+                        const startDate = new Date(quarter.quarterLabelStartDate);
+                        return startDate > now;
+                    }
+                    return false;
+                });
+
+                if (nextQuarterData) {
+                    results.push(nextQuarterData.title);
+                    // infer quarter from the start and end dates
+                    if (nextQuarterData.quarterLabelStartDate && nextQuarterData.quarterLabelEndDate) {
+                        const startDate = nextQuarterData.quarterLabelStartDate.trim();
+                        const endDate = nextQuarterData.quarterLabelEndDate.trim();
+                        currentQuarter = `${startDate} - ${endDate}`;
+                    }  else {
+                        currentQuarter = 'Next Quarter';
+                    }
+                } 
             }
 
             return {
