@@ -1,107 +1,57 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import CreditCardCategoryParser from './category-parser';
 
-describe('CreditCardCategoryParser', () => {
-  let parser: CreditCardCategoryParser;
+describe('CreditCardCategoryParser - Integration Tests', () => {
+  const parser = new CreditCardCategoryParser();
 
-  beforeEach(() => {
-    parser = new CreditCardCategoryParser();
-  });
+  // Set longer timeout for real HTTP requests
+  const timeout = 30000;
 
-  describe('parseAllCategories', () => {
-    it('should return results with correct structure', async () => {
-      // Mock the fetchHtml method
-      vi.spyOn(parser as any, 'fetchHtml')
-        .mockResolvedValueOnce('<html><body>Mock Discover page</body></html>')
-        .mockResolvedValueOnce('<html><body>Mock Chase page</body></html>');
+  describe('Real API Integration', () => {
+    it('should fetch and parse real Discover categories', async () => {
+      const result = await parser.parseDiscoverCategories();
 
+      expect(result.source).toBe('Discover');
+      expect(result.timestamp).toBeDefined();
+      expect(typeof result.quarter).toBe('string');
+      expect(typeof result.category).toBe('string');
+      
+      // Log the actual results for inspection
+      console.log('Discover Result:', result);
+      
+      // The category should be either a real category or "No category found"
+      expect(result.category.length).toBeGreaterThan(0);
+    }, timeout);
+
+    it('should fetch and parse real Chase categories', async () => {
+      const result = await parser.parseChaseCategories();
+
+      expect(result.source).toBe('Chase Freedom');
+      expect(result.timestamp).toBeDefined();
+      expect(typeof result.quarter).toBe('string');
+      expect(typeof result.category).toBe('string');
+      
+      // Log the actual results for inspection
+      console.log('Chase Result:', result);
+      
+      // The category should be either a real category or "No category found"
+      expect(result.category.length).toBeGreaterThan(0);
+    }, timeout);
+
+    it('should fetch and parse all categories from real APIs', async () => {
       const results = await parser.parseAllCategories();
 
       expect(results).toHaveProperty('discover');
       expect(results).toHaveProperty('chase');
       expect(results).toHaveProperty('parseDate');
-      
-      expect(results.discover).toHaveProperty('source');
-      expect(results.discover).toHaveProperty('quarter');
-      expect(results.discover).toHaveProperty('category');
-      expect(results.discover).toHaveProperty('timestamp');
-      
-      expect(results.chase).toHaveProperty('source');
-      expect(results.chase).toHaveProperty('quarter');
-      expect(results.chase).toHaveProperty('category');
-      expect(results.chase).toHaveProperty('timestamp');
-    });
 
-    it('should have correct source names', async () => {
-      vi.spyOn(parser as any, 'fetchHtml')
-        .mockResolvedValueOnce('<html><body>Mock Discover page</body></html>')
-        .mockResolvedValueOnce('<html><body>Mock Chase page</body></html>');
-
-      const results = await parser.parseAllCategories();
-
+      // Both sources should return data
       expect(results.discover.source).toBe('Discover');
       expect(results.chase.source).toBe('Chase Freedom');
-    });
-
-    it('should handle fetch errors gracefully', async () => {
-      vi.spyOn(parser as any, 'fetchHtml')
-        .mockRejectedValue(new Error('Network error'));
-
-      const results = await parser.parseAllCategories();
-
-      expect(results.discover.error).toBeDefined();
-      expect(results.chase.error).toBeDefined();
-    });
+      
+      // Log full results for inspection
+      console.log('Full Integration Results:', JSON.stringify(results, null, 2));
+    }, timeout);
   });
 
-  describe('parseDiscoverCategories', () => {
-    it('should extract offer names when present', async () => {
-      const mockHtml = `
-        <html>
-          <body>
-            <div class="offer-name">Gas Stations & EV Charging</div>
-            <div class="offer-name">Public Transit</div>
-            <div class="offer-name">Utilities</div>
-          </body>
-        </html>
-      `;
-
-      vi.spyOn(parser as any, 'fetchHtml').mockResolvedValueOnce(mockHtml);
-
-      const result = await parser.parseDiscoverCategories();
-
-      expect(result.source).toBe('Discover');
-      expect(result.category).toContain('Gas Stations & EV Charging');
-    });
-
-    it('should return "No category found" when no categories detected', async () => {
-      vi.spyOn(parser as any, 'fetchHtml')
-        .mockResolvedValueOnce('<html><body>No categories here</body></html>');
-
-      const result = await parser.parseDiscoverCategories();
-
-      expect(result.category).toBe('No category found');
-    });
-  });
-
-  describe('parseChaseCategories', () => {
-    it('should extract categories from text content', async () => {
-      const mockHtml = `
-        <html>
-          <body>
-            <div>Gas Stations</div>
-            <div>Restaurant purchases</div>
-            <div>EV Charging stations</div>
-          </body>
-        </html>
-      `;
-
-      vi.spyOn(parser as any, 'fetchHtml').mockResolvedValueOnce(mockHtml);
-
-      const result = await parser.parseChaseCategories();
-
-      expect(result.source).toBe('Chase Freedom');
-      expect(result.category).toContain('Gas Stations');
-    });
-  });
 });

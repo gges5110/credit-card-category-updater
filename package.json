@@ -8,8 +8,6 @@
     "start": "npm run build && node dist/category-parser.cjs",
     "dev": "ts-node src/category-parser.ts",
     "test": "vitest run",
-    "test:unit": "vitest run src/category-parser.test.ts",
-    "test:integration": "vitest run src/integration.test.ts",
     "preview": "vite preview"
   },
   "dependencies": {
