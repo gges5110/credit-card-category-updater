@@ -9,7 +9,7 @@ on:
       force_run:
         description: 'Force run the category parser'
         required: false
-        default: 'false'
+        default: false
         type: boolean
 
 jobs:
@@ -30,7 +30,7 @@ jobs:
       run: npm ci
       
     - name: Build TypeScript
-      run: npm run build
+      run: npm run build:parser
       
     - name: Parse credit card categories
       id: parse-categories

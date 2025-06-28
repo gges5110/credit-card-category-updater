@@ -5,18 +5,18 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        main: resolve(__dirname, 'src/main.ts'),
+        main: resolve(__dirname, 'src/category-parser.ts'),
         'category-parser': resolve(__dirname, 'src/category-parser.ts'),
       },
       external: ['node-fetch', 'cheerio', 'googleapis'],
       output: {
         entryFileNames: '[name].cjs',
-        format: 'cjs'
-      }
+        format: 'cjs',
+      },
     },
-    target: 'node18'
+    target: 'node18',
   },
   esbuild: {
-    platform: 'node'
-  }
+    platform: 'node',
+  },
 });
