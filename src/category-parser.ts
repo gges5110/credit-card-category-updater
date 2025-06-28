@@ -195,7 +195,8 @@ class CreditCardCategoryParser {
             parseDate: new Date().toISOString()
         };
 
-        console.log('Results:', JSON.stringify(results, null, 2));
+        // Output only JSON for easy parsing by GitHub Actions
+        console.log(JSON.stringify(results, null, 2));
 
         return results;
     }

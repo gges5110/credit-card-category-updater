@@ -36,19 +36,19 @@ jobs:
       id: parse-categories
       run: |
         echo "Starting category parsing..."
-        npm start > categories_output.txt 2>&1
-        echo "Category parsing completed"
         
         # Create data directory if it doesn't exist
         mkdir -p data
         
-        # Extract JSON from output and save to data directory
-        # Look for the "Results:" line and extract the JSON that follows
-        if grep -q "Results:" categories_output.txt; then
-          sed -n '/Results:/,$ p' categories_output.txt | tail -n +2 > data/categories.json
+        # Run parser and capture output
+        if npm start > data/categories.json 2> parse_errors.txt; then
+          echo "Category parsing completed successfully"
         else
-          echo "No 'Results:' found in output, using fallback JSON"
-          echo '{"parseDate":"'$(date -u +%Y-%m-%dT%H:%M:%S.%3NZ)'","discover":{"source":"Discover","quarter":"","category":"Error parsing","timestamp":"'$(date -u +%Y-%m-%dT%H:%M:%S.%3NZ)'","error":"No results found"},"chase":{"source":"Chase Freedom","quarter":"","category":"Error parsing","timestamp":"'$(date -u +%Y-%m-%dT%H:%M:%S.%3NZ)'","error":"No results found"}}' > data/categories.json
+          echo "Category parsing failed, creating fallback JSON"
+          echo '{"parseDate":"'$(date -u +%Y-%m-%dT%H:%M:%S.%3NZ)'","discover":{"source":"Discover","quarter":"","category":"Error parsing","timestamp":"'$(date -u +%Y-%m-%dT%H:%M:%S.%3NZ)'","error":"Parser failed"},"chase":{"source":"Chase Freedom","quarter":"","category":"Error parsing","timestamp":"'$(date -u +%Y-%m-%dT%H:%M:%S.%3NZ)'","error":"Parser failed"}}' > data/categories.json
+          
+          echo "=== PARSE ERRORS ==="
+          cat parse_errors.txt
         fi
         
         # Set outputs for later steps
@@ -64,7 +64,7 @@ jobs:
         name: credit-card-categories-${{ github.run_number }}
         path: |
           data/categories.json
-          categories_output.txt
+          parse_errors.txt
         retention-days: 90
         
     - name: Create summary
