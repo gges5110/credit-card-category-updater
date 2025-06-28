@@ -37,7 +37,7 @@ jobs:
         echo "Starting category parsing..."
         
         # Run parser (it will create data/categories.json directly)
-        if npm run dev; then
+        if npm start; then
           echo "Category parsing completed successfully"
           
           # Verify the JSON file was created and is valid
