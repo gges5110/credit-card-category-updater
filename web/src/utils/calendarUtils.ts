@@ -4,25 +4,49 @@ export function parseQuarterDates(quarter: string): {
   startDate: string;
   endDate: string;
 } {
-  // Parse quarter string like "July 01, 2025 - September 30, 2025"
-  const dateMatch = quarter.match(
-    /(\w+)\s+(\d{1,2}),\s*(\d{4})\s*-\s*(\w+)\s+(\d{1,2}),\s*(\d{4})/
-  );
-
-  if (dateMatch) {
-    const [, startMonth, startDay, startYear, endMonth, endDay, endYear] =
-      dateMatch;
-
-    const startDate = new Date(`${startMonth} ${startDay}, ${startYear}`);
-    const endDate = new Date(`${endMonth} ${endDay}, ${endYear}`);
-
+  // Parse quarter codes like "2025-Q3"
+  const quarterMatch = quarter.match(/(\d{4})-Q([1-4])/);
+  
+  if (quarterMatch) {
+    const year = parseInt(quarterMatch[1]);
+    const q = parseInt(quarterMatch[2]);
+    
+    let startDate: Date;
+    let endDate: Date;
+    
+    switch (q) {
+      case 1:
+        startDate = new Date(year, 0, 1); // January 1
+        endDate = new Date(year, 2, 31); // March 31
+        break;
+      case 2:
+        startDate = new Date(year, 3, 1); // April 1
+        endDate = new Date(year, 5, 30); // June 30
+        break;
+      case 3:
+        startDate = new Date(year, 6, 1); // July 1
+        endDate = new Date(year, 8, 30); // September 30
+        break;
+      case 4:
+        startDate = new Date(year, 9, 1); // October 1
+        endDate = new Date(year, 11, 31); // December 31
+        break;
+      default:
+        // Fallback to current quarter
+        return getCurrentQuarterDates();
+    }
+    
     return {
       startDate: formatDateForCalendar(startDate),
       endDate: formatDateForCalendar(endDate),
     };
   }
 
-  // Fallback: return current quarter dates
+  // Fallback to current quarter if parsing fails
+  return getCurrentQuarterDates();
+}
+
+function getCurrentQuarterDates(): { startDate: string; endDate: string } {
   const now = new Date();
   const currentYear = now.getFullYear();
   const currentMonth = now.getMonth();
@@ -88,34 +112,45 @@ export function generateCalendarUrl(categoryResult: CategoryResult): string {
 }
 
 export function getQuarterDisplayName(quarter: string): string {
-  const { startDate, endDate } = parseQuarterDates(quarter);
-
-  // Convert YYYYMMDD back to readable format
-  const start = new Date(
-    parseInt(startDate.substring(0, 4)),
-    parseInt(startDate.substring(4, 6)) - 1,
-    parseInt(startDate.substring(6, 8))
-  );
-
-  const end = new Date(
-    parseInt(endDate.substring(0, 4)),
-    parseInt(endDate.substring(4, 6)) - 1,
-    parseInt(endDate.substring(6, 8))
-  );
-
-  const startFormatted = start.toLocaleDateString('en-US', {
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric',
-  });
-
-  const endFormatted = end.toLocaleDateString('en-US', {
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric',
-  });
-
-  return `${startFormatted} - ${endFormatted}`;
+  // Handle quarter codes like "2025-Q3"
+  const quarterMatch = quarter.match(/(\d{4})-Q([1-4])/);
+  
+  if (quarterMatch) {
+    const year = parseInt(quarterMatch[1]);
+    const q = parseInt(quarterMatch[2]);
+    
+    let startMonth: string, endMonth: string, endDay: number;
+    
+    switch (q) {
+      case 1:
+        startMonth = 'January';
+        endMonth = 'March';
+        endDay = 31;
+        break;
+      case 2:
+        startMonth = 'April';
+        endMonth = 'June';
+        endDay = 30;
+        break;
+      case 3:
+        startMonth = 'July';
+        endMonth = 'September';
+        endDay = 30;
+        break;
+      case 4:
+        startMonth = 'October';
+        endMonth = 'December';
+        endDay = 31;
+        break;
+      default:
+        return quarter; // fallback to original string
+    }
+    
+    return `${startMonth} 1, ${year} - ${endMonth} ${endDay}, ${year}`;
+  }
+  
+  // Fallback for non-standard quarter formats
+  return quarter;
 }
 
 export function getNextUpdateDate(): string {

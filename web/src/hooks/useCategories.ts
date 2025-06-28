@@ -26,17 +26,12 @@ export function useCategories() {
       const rawData: ParseResults = await response.json();
 
       // Transform raw parser data into website format
+      const quarter = rawData.discover.quarter || rawData.chase.quarter;
       const websiteData: WebsiteData = {
         currentQuarter: {
-          period: determinePeriod(
-            rawData.discover.quarter || rawData.chase.quarter
-          ),
-          startDate: extractStartDate(
-            rawData.discover.quarter || rawData.chase.quarter
-          ),
-          endDate: extractEndDate(
-            rawData.discover.quarter || rawData.chase.quarter
-          ),
+          period: quarter,
+          startDate: '', // No longer used, dates generated from quarter code
+          endDate: '', // No longer used, dates generated from quarter code
           discover: {
             ...rawData.discover,
             calendarUrl: generateCalendarUrl(rawData.discover),
@@ -98,41 +93,4 @@ export function useCategories() {
     error,
     retry,
   };
-}
-
-function determinePeriod(quarter: string): string {
-  if (quarter.includes('January') || quarter.includes('March')) {
-    const year = quarter.match(/(\d{4})/)?.[1] || new Date().getFullYear();
-    return `${year}-Q1`;
-  } else if (quarter.includes('April') || quarter.includes('June')) {
-    const year = quarter.match(/(\d{4})/)?.[1] || new Date().getFullYear();
-    return `${year}-Q2`;
-  } else if (quarter.includes('July') || quarter.includes('September')) {
-    const year = quarter.match(/(\d{4})/)?.[1] || new Date().getFullYear();
-    return `${year}-Q3`;
-  } else if (quarter.includes('October') || quarter.includes('December')) {
-    const year = quarter.match(/(\d{4})/)?.[1] || new Date().getFullYear();
-    return `${year}-Q4`;
-  }
-  return 'Current Quarter';
-}
-
-function extractStartDate(quarter: string): string {
-  const match = quarter.match(/(\w+)\s+(\d{1,2}),\s*(\d{4})/);
-  if (match) {
-    const [, month, day, year] = match;
-    const date = new Date(`${month} ${day}, ${year}`);
-    return date.toISOString().split('T')[0];
-  }
-  return '';
-}
-
-function extractEndDate(quarter: string): string {
-  const match = quarter.match(/-\s*(\w+)\s+(\d{1,2}),\s*(\d{4})/);
-  if (match) {
-    const [, month, day, year] = match;
-    const date = new Date(`${month} ${day}, ${year}`);
-    return date.toISOString().split('T')[0];
-  }
-  return '';
 }

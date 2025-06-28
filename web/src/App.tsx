@@ -4,6 +4,7 @@ import { LoadingState } from './components/LoadingState';
 import { ErrorState } from './components/ErrorState';
 import { Footer } from './components/Footer';
 import { useCategories } from './hooks/useCategories';
+import { getQuarterDisplayName } from './utils/calendarUtils';
 
 function App() {
   const { data, loading, error, retry } = useCategories();
@@ -40,18 +41,7 @@ function App() {
                 {data.currentQuarter.period}
               </h2>
               <p className="text-gray-600">
-                {data.currentQuarter.startDate &&
-                  data.currentQuarter.endDate && (
-                    <>
-                      {new Date(
-                        data.currentQuarter.startDate
-                      ).toLocaleDateString()}{' '}
-                      -{' '}
-                      {new Date(
-                        data.currentQuarter.endDate
-                      ).toLocaleDateString()}
-                    </>
-                  )}
+                {getQuarterDisplayName(data.currentQuarter.period)}
               </p>
             </div>
 

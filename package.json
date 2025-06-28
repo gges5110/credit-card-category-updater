@@ -4,10 +4,8 @@
   "main": "dist/category-parser.js",
   "scripts": {
     "build": "vite build",
-    "build:parser": "vite build --config vite.parser.config.ts",
     "build:web": "cd web && npm run build",
-    "start": "npm run build:parser && node dist/category-parser.cjs",
-    "dev": "ts-node src/category-parser.ts",
+    "start": "ts-node src/category-parser.ts",
     "dev:web": "cd web && npm run dev",
     "test": "vitest run",
     "preview": "vite preview",

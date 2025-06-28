@@ -49,12 +49,22 @@ class CreditCardCategoryParser {
 
                 if (nextQuarterData) {
                     results.push(nextQuarterData.title);
-                    // infer quarter from the start and end dates
-                    if (nextQuarterData.quarterLabelStartDate && nextQuarterData.quarterLabelEndDate) {
-                        const startDate = nextQuarterData.quarterLabelStartDate.trim();
-                        const endDate = nextQuarterData.quarterLabelEndDate.trim();
-                        currentQuarter = `${startDate} - ${endDate}`;
-                    }  else {
+                    // infer quarter from the start date
+                    if (nextQuarterData.quarterLabelStartDate) {
+                        const startDate = new Date(nextQuarterData.quarterLabelStartDate);
+                        const year = startDate.getFullYear();
+                        const month = startDate.getMonth() + 1; // 0-indexed
+                        
+                        if (month >= 1 && month <= 3) {
+                            currentQuarter = `${year}-Q1`;
+                        } else if (month >= 4 && month <= 6) {
+                            currentQuarter = `${year}-Q2`;
+                        } else if (month >= 7 && month <= 9) {
+                            currentQuarter = `${year}-Q3`;
+                        } else if (month >= 10 && month <= 12) {
+                            currentQuarter = `${year}-Q4`;
+                        }
+                    } else {
                         currentQuarter = 'Next Quarter';
                     }
                 }
@@ -123,15 +133,15 @@ class CreditCardCategoryParser {
                     
                     // Infer quarter based on activation deadline month
                     if (['march', 'mar'].includes(month)) {
-                        currentQuarter = `January 01, ${year} - March 31, ${year}`;
+                        currentQuarter = `${year}-Q1`;
                     } else if (['june', 'jun'].includes(month)) {
-                        currentQuarter = `April 01, ${year} - June 30, ${year}`;
+                        currentQuarter = `${year}-Q2`;
                     } else if (['september', 'sep'].includes(month)) {
-                        currentQuarter = `July 01, ${year} - September 30, ${year}`;
+                        currentQuarter = `${year}-Q3`;
                     } else if (['december', 'dec'].includes(month)) {
-                        currentQuarter = `October 01, ${year} - December 31, ${year}`;
+                        currentQuarter = `${year}-Q4`;
                     } else {
-                        currentQuarter = `${activateByDate} (Activation Deadline)`;
+                        currentQuarter = `${year}-Q?`;
                     }
                 }
             }
