@@ -39,22 +39,22 @@ jobs:
         npm start > categories_output.txt 2>&1
         echo "Category parsing completed"
         
-        # Extract JSON from output and save to file
-        cat categories_output.txt | grep -A 50 "Results:" | tail -n +2 > categories.json || echo "{}" > categories.json
+        # Extract JSON from output and save to data directory
+        cat categories_output.txt | grep -A 50 "Results:" | tail -n +2 > data/categories.json || echo "{}" > data/categories.json
         
         # Set outputs for later steps
-        echo "results_file=categories.json" >> $GITHUB_OUTPUT
+        echo "results_file=data/categories.json" >> $GITHUB_OUTPUT
         
         # Show results in logs
         echo "=== PARSING RESULTS ==="
-        cat categories.json
+        cat data/categories.json
         
     - name: Upload results as artifact
       uses: actions/upload-artifact@v4
       with:
         name: credit-card-categories-${{ github.run_number }}
         path: |
-          categories.json
+          data/categories.json
           categories_output.txt
         retention-days: 90
         
@@ -66,19 +66,35 @@ jobs:
         echo "" >> $GITHUB_STEP_SUMMARY
         
         # Parse and display results in summary
-        if [ -f categories.json ] && [ -s categories.json ]; then
+        if [ -f data/categories.json ] && [ -s data/categories.json ]; then
           echo "## Discover Categories" >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`json" >> $GITHUB_STEP_SUMMARY
-          cat categories.json | jq '.discover // empty' 2>/dev/null || echo "Failed to parse Discover data" >> $GITHUB_STEP_SUMMARY
+          cat data/categories.json | jq '.discover // empty' 2>/dev/null || echo "Failed to parse Discover data" >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           
           echo "## Chase Freedom Categories" >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`json" >> $GITHUB_STEP_SUMMARY
-          cat categories.json | jq '.chase // empty' 2>/dev/null || echo "Failed to parse Chase data" >> $GITHUB_STEP_SUMMARY
+          cat data/categories.json | jq '.chase // empty' 2>/dev/null || echo "Failed to parse Chase data" >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
         else
           echo "❌ No results found or parsing failed" >> $GITHUB_STEP_SUMMARY
+        fi
+
+    - name: Commit and push updated categories
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        
+        # Check if there are changes
+        if git diff --quiet data/categories.json; then
+          echo "No changes to categories.json"
+        else
+          echo "Categories updated, committing changes..."
+          git add data/categories.json
+          git commit -m "Update quarterly categories - $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+          git push
+          echo "✅ Categories updated and pushed to repository"
         fi
         
     - name: Check for changes and create issue (optional)
