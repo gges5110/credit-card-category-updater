@@ -3,7 +3,7 @@ import { ParseResults, WebsiteData } from '../types';
 import { generateCalendarUrl, getNextUpdateDate } from '../utils/calendarUtils';
 
 const DATA_URL =
-  'https://raw.githubusercontent.com/gges5110/credit-card-category-updater/main/data/categories.json';
+  'https://raw.githubusercontent.com/gges5110/credit-card-category-updater/refs/heads/main/data/categories.json';
 
 export function useCategories() {
   const [data, setData] = useState<WebsiteData | null>(null);
