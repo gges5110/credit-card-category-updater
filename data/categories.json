@@ -1,1 +1,15 @@
-{"parseDate":"2025-06-28T21:38:36.169Z","discover":{"source":"Discover","quarter":"","category":"Error parsing","timestamp":"2025-06-28T21:38:36.170Z","error":"Parser failed"},"chase":{"source":"Chase Freedom","quarter":"","category":"Error parsing","timestamp":"2025-06-28T21:38:36.171Z","error":"Parser failed"}}
+{
+  "discover": {
+    "source": "Discover",
+    "quarter": "2025-Q3",
+    "category": "Gas Stations & EV Charging, Public Transit, and Utilities",
+    "timestamp": "2025-06-28T21:39:50.716Z"
+  },
+  "chase": {
+    "source": "Chase Freedom",
+    "quarter": "2025-Q3",
+    "category": "Gas Stations, EV Charging, Select Live Entertainment, Instacart, Thousands of restaurants. Zero delivery fee., Sports & Entertainment",
+    "timestamp": "2025-06-28T21:39:50.527Z"
+  },
+  "parseDate": "2025-06-28T21:39:50.716Z"
+}
