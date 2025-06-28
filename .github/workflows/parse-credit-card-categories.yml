@@ -15,6 +15,8 @@ on:
 jobs:
   parse-categories:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Allow writing to repository
     
     steps:
     - name: Checkout repository
@@ -36,19 +38,23 @@ jobs:
       id: parse-categories
       run: |
         echo "Starting category parsing..."
-        npm start > categories_output.txt 2>&1
-        echo "Category parsing completed"
         
-        # Create data directory if it doesn't exist
-        mkdir -p data
-        
-        # Extract JSON from output and save to data directory
-        # Look for the "Results:" line and extract the JSON that follows
-        if grep -q "Results:" categories_output.txt; then
-          sed -n '/Results:/,$ p' categories_output.txt | tail -n +2 > data/categories.json
+        # Run parser (it will create data/categories.json directly)
+        if npm run dev; then
+          echo "Category parsing completed successfully"
+          
+          # Verify the JSON file was created and is valid
+          if [ -f "data/categories.json" ] && jq empty data/categories.json 2>/dev/null; then
+            echo "✅ Valid JSON file created at data/categories.json"
+          else
+            echo "❌ JSON file is missing or invalid, creating fallback"
+            mkdir -p data
+            echo '{"parseDate":"'$(date -u +%Y-%m-%dT%H:%M:%S.%3NZ)'","discover":{"source":"Discover","quarter":"","category":"Error: Invalid JSON","timestamp":"'$(date -u +%Y-%m-%dT%H:%M:%S.%3NZ)'","error":"Invalid JSON output"},"chase":{"source":"Chase Freedom","quarter":"","category":"Error: Invalid JSON","timestamp":"'$(date -u +%Y-%m-%dT%H:%M:%S.%3NZ)'","error":"Invalid JSON output"}}' > data/categories.json
+          fi
         else
-          echo "No 'Results:' found in output, using fallback JSON"
-          echo '{"parseDate":"'$(date -u +%Y-%m-%dT%H:%M:%S.%3NZ)'","discover":{"source":"Discover","quarter":"","category":"Error parsing","timestamp":"'$(date -u +%Y-%m-%dT%H:%M:%S.%3NZ)'","error":"No results found"},"chase":{"source":"Chase Freedom","quarter":"","category":"Error parsing","timestamp":"'$(date -u +%Y-%m-%dT%H:%M:%S.%3NZ)'","error":"No results found"}}' > data/categories.json
+          echo "❌ Category parsing failed, creating fallback JSON"
+          mkdir -p data
+          echo '{"parseDate":"'$(date -u +%Y-%m-%dT%H:%M:%S.%3NZ)'","discover":{"source":"Discover","quarter":"","category":"Error parsing","timestamp":"'$(date -u +%Y-%m-%dT%H:%M:%S.%3NZ)'","error":"Parser failed"},"chase":{"source":"Chase Freedom","quarter":"","category":"Error parsing","timestamp":"'$(date -u +%Y-%m-%dT%H:%M:%S.%3NZ)'","error":"Parser failed"}}' > data/categories.json
         fi
         
         # Set outputs for later steps
@@ -64,7 +70,6 @@ jobs:
         name: credit-card-categories-${{ github.run_number }}
         path: |
           data/categories.json
-          categories_output.txt
         retention-days: 90
         
     - name: Create summary

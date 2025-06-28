@@ -1,0 +1,15 @@
+{
+  "discover": {
+    "source": "Discover",
+    "quarter": "July 01, 2025 - September 30, 2025",
+    "category": "Gas Stations & EV Charging, Public Transit, and Utilities",
+    "timestamp": "2025-06-28T20:26:55.219Z"
+  },
+  "chase": {
+    "source": "Chase Freedom",
+    "quarter": "July 01, 2025 - September 30, 2025",
+    "category": "Gas Stations, EV Charging, Select Live Entertainment, Instacart, Thousands of restaurants. Zero delivery fee., Sports & Entertainment",
+    "timestamp": "2025-06-28T20:26:55.067Z"
+  },
+  "parseDate": "2025-06-28T20:26:55.219Z"
+}

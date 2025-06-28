@@ -1,5 +1,7 @@
 import fetch from 'node-fetch';
 import * as cheerio from 'cheerio';
+import * as fs from 'fs';
+import * as path from 'path';
 
 interface CategoryResult {
     source: string;
@@ -195,7 +197,17 @@ class CreditCardCategoryParser {
             parseDate: new Date().toISOString()
         };
 
-        console.log('Results:', JSON.stringify(results, null, 2));
+        // Write JSON file directly
+        const dataDir = path.join(process.cwd(), 'data');
+        if (!fs.existsSync(dataDir)) {
+            fs.mkdirSync(dataDir, { recursive: true });
+        }
+        
+        const outputPath = path.join(dataDir, 'categories.json');
+        fs.writeFileSync(outputPath, JSON.stringify(results, null, 2));
+        
+        console.log(`Results written to ${outputPath}`);
+        console.log('Parsing completed successfully!');
 
         return results;
     }
