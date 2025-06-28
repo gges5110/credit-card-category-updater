@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { ParseResults, WebsiteData } from '../types';
 import { generateCalendarUrl, getNextUpdateDate } from '../utils/calendarUtils';
 
-const DATA_URL = 'https://raw.githubusercontent.com/gges5110/credit-card-category-updater/main/data/categories.json';
+const DATA_URL =
+  'https://raw.githubusercontent.com/gges5110/credit-card-category-updater/main/data/categories.json';
 
 export function useCategories() {
   const [data, setData] = useState<WebsiteData | null>(null);
@@ -15,33 +16,39 @@ export function useCategories() {
       setError(null);
 
       const response = await fetch(DATA_URL);
-      
+
       if (!response.ok) {
-        throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`);
+        throw new Error(
+          `Failed to fetch data: ${response.status} ${response.statusText}`
+        );
       }
 
       const rawData: ParseResults = await response.json();
-      
+
       // Transform raw parser data into website format
       const websiteData: WebsiteData = {
         currentQuarter: {
-          period: determinePeriod(rawData.discover.quarter || rawData.chase.quarter),
-          startDate: extractStartDate(rawData.discover.quarter || rawData.chase.quarter),
-          endDate: extractEndDate(rawData.discover.quarter || rawData.chase.quarter),
+          period: determinePeriod(
+            rawData.discover.quarter || rawData.chase.quarter
+          ),
+          startDate: extractStartDate(
+            rawData.discover.quarter || rawData.chase.quarter
+          ),
+          endDate: extractEndDate(
+            rawData.discover.quarter || rawData.chase.quarter
+          ),
           discover: {
-            category: rawData.discover.category,
+            ...rawData.discover,
             calendarUrl: generateCalendarUrl(rawData.discover),
-            source: rawData.discover.source
           },
           chase: {
-            category: rawData.chase.category,
+            ...rawData.chase,
             calendarUrl: generateCalendarUrl(rawData.chase),
-            source: rawData.chase.source
-          }
+          },
         },
         lastUpdated: rawData.parseDate,
         nextUpdate: getNextUpdateDate(),
-        status: 'success'
+        status: 'success',
       };
 
       setData(websiteData);
@@ -56,17 +63,21 @@ export function useCategories() {
           discover: {
             category: 'Error loading categories',
             calendarUrl: '',
-            source: 'Discover'
+            source: 'Discover',
+            timestamp: '',
+            quarter: '',
           },
           chase: {
             category: 'Error loading categories',
             calendarUrl: '',
-            source: 'Chase Freedom'
-          }
+            source: 'Chase Freedom',
+            timestamp: '',
+            quarter: '',
+          },
         },
         lastUpdated: new Date().toISOString(),
         nextUpdate: getNextUpdateDate(),
-        status: 'error'
+        status: 'error',
       });
     } finally {
       setLoading(false);
@@ -85,7 +96,7 @@ export function useCategories() {
     data,
     loading,
     error,
-    retry
+    retry,
   };
 }
 

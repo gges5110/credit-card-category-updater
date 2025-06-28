@@ -1,4 +1,3 @@
-import React from 'react';
 import { Header } from './components/Header';
 import { CategoryCard } from './components/CategoryCard';
 import { LoadingState } from './components/LoadingState';
@@ -31,11 +30,8 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header 
-        lastUpdated={data?.lastUpdated}
-        nextUpdate={data?.nextUpdate}
-      />
-      
+      <Header lastUpdated={data?.lastUpdated} nextUpdate={data?.nextUpdate} />
+
       <main className="max-w-4xl mx-auto px-4 py-8">
         {data?.currentQuarter && (
           <div className="mb-8">
@@ -44,33 +40,29 @@ function App() {
                 {data.currentQuarter.period}
               </h2>
               <p className="text-gray-600">
-                {data.currentQuarter.startDate && data.currentQuarter.endDate && (
-                  <>
-                    {new Date(data.currentQuarter.startDate).toLocaleDateString()} - {new Date(data.currentQuarter.endDate).toLocaleDateString()}
-                  </>
-                )}
+                {data.currentQuarter.startDate &&
+                  data.currentQuarter.endDate && (
+                    <>
+                      {new Date(
+                        data.currentQuarter.startDate
+                      ).toLocaleDateString()}{' '}
+                      -{' '}
+                      {new Date(
+                        data.currentQuarter.endDate
+                      ).toLocaleDateString()}
+                    </>
+                  )}
               </p>
             </div>
 
             <div className="grid md:grid-cols-2 gap-6">
-              <CategoryCard
-                title="Discover"
-                category={data.currentQuarter.discover.category}
-                calendarUrl={data.currentQuarter.discover.calendarUrl}
-                variant="discover"
-              />
-              
-              <CategoryCard
-                title="Chase Freedom"
-                category={data.currentQuarter.chase.category}
-                calendarUrl={data.currentQuarter.chase.calendarUrl}
-                variant="chase"
-              />
+              <CategoryCard categoryResult={data.currentQuarter.discover} />
+              <CategoryCard categoryResult={data.currentQuarter.chase} />
             </div>
           </div>
         )}
       </main>
-      
+
       <Footer />
     </div>
   );

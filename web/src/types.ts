@@ -6,6 +6,10 @@ export interface CategoryResult {
   error?: string;
 }
 
+export interface Category extends CategoryResult{
+  calendarUrl: string;
+}
+
 export interface ParseResults {
   discover: CategoryResult;
   chase: CategoryResult;
@@ -17,16 +21,8 @@ export interface WebsiteData {
     period: string;
     startDate: string;
     endDate: string;
-    discover: {
-      category: string;
-      calendarUrl: string;
-      source: string;
-    };
-    chase: {
-      category: string;
-      calendarUrl: string;
-      source: string;
-    };
+    discover: Category;
+    chase: Category;
   };
   lastUpdated: string;
   nextUpdate: string;
