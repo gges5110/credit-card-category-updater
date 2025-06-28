@@ -39,8 +39,17 @@ jobs:
         npm start > categories_output.txt 2>&1
         echo "Category parsing completed"
         
+        # Create data directory if it doesn't exist
+        mkdir -p data
+        
         # Extract JSON from output and save to data directory
-        cat categories_output.txt | grep -A 50 "Results:" | tail -n +2 > data/categories.json || echo "{}" > data/categories.json
+        # Look for the "Results:" line and extract the JSON that follows
+        if grep -q "Results:" categories_output.txt; then
+          sed -n '/Results:/,$ p' categories_output.txt | tail -n +2 > data/categories.json
+        else
+          echo "No 'Results:' found in output, using fallback JSON"
+          echo '{"parseDate":"'$(date -u +%Y-%m-%dT%H:%M:%S.%3NZ)'","discover":{"source":"Discover","quarter":"","category":"Error parsing","timestamp":"'$(date -u +%Y-%m-%dT%H:%M:%S.%3NZ)'","error":"No results found"},"chase":{"source":"Chase Freedom","quarter":"","category":"Error parsing","timestamp":"'$(date -u +%Y-%m-%dT%H:%M:%S.%3NZ)'","error":"No results found"}}' > data/categories.json
+        fi
         
         # Set outputs for later steps
         echo "results_file=data/categories.json" >> $GITHUB_OUTPUT
