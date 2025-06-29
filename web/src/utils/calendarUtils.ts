@@ -17,23 +17,22 @@ export function parseQuarterDates(quarter: string): {
     switch (q) {
       case 1:
         startDate = new Date(year, 0, 1); // January 1
-        endDate = new Date(year, 2, 31); // March 31
+        endDate = new Date(year, 3, 1); // April 1
         break;
       case 2:
         startDate = new Date(year, 3, 1); // April 1
-        endDate = new Date(year, 5, 30); // June 30
+        endDate = new Date(year, 6, 1); // July 1
         break;
       case 3:
         startDate = new Date(year, 6, 1); // July 1
-        endDate = new Date(year, 8, 30); // September 30
+        endDate = new Date(year, 9, 1); // October 1
         break;
       case 4:
         startDate = new Date(year, 9, 1); // October 1
-        endDate = new Date(year, 11, 31); // December 31
+        endDate = new Date(year + 1, 0, 1); // January 1
         break;
       default:
-        // Fallback to current quarter
-        return getCurrentQuarterDates();
+        throw new Error(`Invalid quarter format: ${quarter}`);
     }
 
     return {
@@ -42,40 +41,7 @@ export function parseQuarterDates(quarter: string): {
     };
   }
 
-  // Fallback to current quarter if parsing fails
-  return getCurrentQuarterDates();
-}
-
-function getCurrentQuarterDates(): { startDate: string; endDate: string } {
-  const now = new Date();
-  const currentYear = now.getFullYear();
-  const currentMonth = now.getMonth();
-
-  let startDate: Date;
-  let endDate: Date;
-
-  if (currentMonth >= 0 && currentMonth <= 2) {
-    // Q1
-    startDate = new Date(currentYear, 0, 1); // Jan 1
-    endDate = new Date(currentYear, 2, 31); // Mar 31
-  } else if (currentMonth >= 3 && currentMonth <= 5) {
-    // Q2
-    startDate = new Date(currentYear, 3, 1); // Apr 1
-    endDate = new Date(currentYear, 5, 30); // Jun 30
-  } else if (currentMonth >= 6 && currentMonth <= 8) {
-    // Q3
-    startDate = new Date(currentYear, 6, 1); // Jul 1
-    endDate = new Date(currentYear, 8, 30); // Sep 30
-  } else {
-    // Q4
-    startDate = new Date(currentYear, 9, 1); // Oct 1
-    endDate = new Date(currentYear, 11, 31); // Dec 31
-  }
-
-  return {
-    startDate: formatDateForCalendar(startDate),
-    endDate: formatDateForCalendar(endDate),
-  };
+  throw new Error(`Invalid quarter format: ${quarter}`);
 }
 
 function formatDateForCalendar(date: Date): string {
