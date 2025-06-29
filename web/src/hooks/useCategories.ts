@@ -30,8 +30,6 @@ export function useCategories() {
       const websiteData: WebsiteData = {
         currentQuarter: {
           period: quarter,
-          startDate: '', // No longer used, dates generated from quarter code
-          endDate: '', // No longer used, dates generated from quarter code
           discover: {
             ...rawData.discover,
             calendarUrl: generateCalendarUrl(rawData.discover),
@@ -53,8 +51,6 @@ export function useCategories() {
       setData({
         currentQuarter: {
           period: 'Unknown',
-          startDate: '',
-          endDate: '',
           discover: {
             category: 'Error loading categories',
             calendarUrl: '',
