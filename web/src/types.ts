@@ -6,7 +6,7 @@ export interface CategoryResult {
   error?: string;
 }
 
-export interface Category extends CategoryResult{
+export interface Category extends CategoryResult {
   calendarUrl: string;
 }
 
@@ -19,8 +19,6 @@ export interface ParseResults {
 export interface WebsiteData {
   currentQuarter: {
     period: string;
-    startDate: string;
-    endDate: string;
     discover: Category;
     chase: Category;
   };
