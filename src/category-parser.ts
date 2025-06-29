@@ -168,9 +168,12 @@ class CreditCardCategoryParser {
         'h2, h3, h4',
       ];
 
+      // look for categories only under [data-feature="featured-block"]
+      const featuredBlock = $('[data-feature="featured-block"]').first();
+
       for (const selector of categorySelectors) {
         // Texts that starts with "Get 5% cash back on"
-        $(selector).each((_, el) => {
+        featuredBlock.find(selector).each((_, el) => {
           const text = $(el).text().trim();
           const lowerText = text.toLowerCase();
 
