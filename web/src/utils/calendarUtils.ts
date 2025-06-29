@@ -72,7 +72,6 @@ export function generateCalendarUrl(categoryResult: CategoryResult): string {
     text: title,
     dates: dates,
     details: details,
-    ctz: 'America/New_York',
   });
 
   return `https://calendar.google.com/calendar/render?${params.toString()}`;
