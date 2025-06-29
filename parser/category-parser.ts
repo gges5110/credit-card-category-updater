@@ -1,31 +1,40 @@
-import fetch from 'node-fetch';
-import * as cheerio from 'cheerio';
-import * as fs from 'fs';
-import * as path from 'path';
+import fetch from "node-fetch";
+import * as cheerio from "cheerio";
+import * as fs from "fs";
+import * as path from "path";
 
 interface CategoryResult {
-  source: string;
-  quarter: string;
   category: string;
-  timestamp: string;
   error?: string;
+  quarter: string;
+  source: string;
+  timestamp: string;
 }
 
 interface ParseResults {
-  discover: CategoryResult;
   chase: CategoryResult;
+  discover: CategoryResult;
   parseDate: string;
+}
+
+interface QuarterData {
+  quarterLabelStartDate?: string;
+  title: string;
+}
+
+interface DiscoverResponse {
+  quarters?: QuarterData[];
 }
 
 class CreditCardCategoryParser {
   async parseDiscoverCategories(): Promise<CategoryResult> {
     try {
       const response = await fetch(
-        'https://card.discover.com/cardissuer/public/rewards/offer/v1/offer-categories',
+        "https://card.discover.com/cardissuer/public/rewards/offer/v1/offer-categories",
         {
           headers: {
-            'User-Agent':
-              'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+            "User-Agent":
+              "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
           },
         }
       );
@@ -34,16 +43,16 @@ class CreditCardCategoryParser {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }
 
-      const data = await response.json();
+      const data: DiscoverResponse = await response.json();
 
-      let results: string[] = [];
-      let currentQuarter = 'Current Quarter';
+      const results: string[] = [];
+      let currentQuarter = "Current Quarter";
 
       // Extract categories from JSON response
       if (data && data.quarters && Array.isArray(data.quarters)) {
         // Find the next quarter based on current date
         const now = new Date();
-        const nextQuarterData = data.quarters.find((quarter: any) => {
+        const nextQuarterData = data.quarters.find((quarter: QuarterData) => {
           if (quarter.quarterLabelStartDate) {
             const startDate = new Date(quarter.quarterLabelStartDate);
             return startDate > now;
@@ -69,26 +78,26 @@ class CreditCardCategoryParser {
               currentQuarter = `${year}-Q4`;
             }
           } else {
-            currentQuarter = 'Next Quarter';
+            currentQuarter = "Next Quarter";
           }
         }
       }
 
       return {
-        source: 'Discover',
+        source: "Discover",
         quarter: currentQuarter,
-        category: results.length > 0 ? results.join(', ') : 'No category found',
+        category: results.length > 0 ? results.join(", ") : "No category found",
         timestamp: new Date().toISOString(),
       };
     } catch (error) {
       console.error(
-        'Error parsing Discover categories:',
+        "Error parsing Discover categories:",
         (error as Error).message
       );
       return {
-        source: 'Discover',
-        quarter: '',
-        category: '',
+        source: "Discover",
+        quarter: "",
+        category: "",
         error: (error as Error).message,
         timestamp: new Date().toISOString(),
       };
@@ -98,8 +107,8 @@ class CreditCardCategoryParser {
   private async fetchHtml(url: string): Promise<string> {
     const response = await fetch(url, {
       headers: {
-        'User-Agent':
-          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
       },
     });
 
@@ -113,16 +122,16 @@ class CreditCardCategoryParser {
   async parseChaseCategories(): Promise<CategoryResult> {
     try {
       const html = await this.fetchHtml(
-        'https://www.chase.com/personal/credit-cards/freedom/freedomfive'
+        "https://www.chase.com/personal/credit-cards/freedom/freedomfive"
       );
       const $ = cheerio.load(html);
 
-      let results: string[] = [];
-      let currentQuarter = 'Current Quarter';
+      const results: string[] = [];
+      let currentQuarter = "Current Quarter";
 
       // Look for quarter/date information by finding "Activate by" date
       let activateByDate: string | null = null;
-      $('*').each((_, el) => {
+      $("*").each((_, el) => {
         const text = $(el).text().trim();
         const activateByMatch = text.match(/Activate by\s+([^.]+)/i);
         if (activateByMatch) {
@@ -144,13 +153,13 @@ class CreditCardCategoryParser {
           const year = dateMatch[3] || new Date().getFullYear().toString();
 
           // Infer quarter based on activation deadline month
-          if (['march', 'mar'].includes(month)) {
+          if (["march", "mar"].includes(month)) {
             currentQuarter = `${year}-Q1`;
-          } else if (['june', 'jun'].includes(month)) {
+          } else if (["june", "jun"].includes(month)) {
             currentQuarter = `${year}-Q2`;
-          } else if (['september', 'sep'].includes(month)) {
+          } else if (["september", "sep"].includes(month)) {
             currentQuarter = `${year}-Q3`;
-          } else if (['december', 'dec'].includes(month)) {
+          } else if (["december", "dec"].includes(month)) {
             currentQuarter = `${year}-Q4`;
           } else {
             currentQuarter = `${year}-Q?`;
@@ -163,9 +172,9 @@ class CreditCardCategoryParser {
         '[data-module-name*="category"]',
         '[class*="category"]',
         '[class*="bonus"]',
-        '.quarterly-category',
-        '.offer-category',
-        'h2, h3, h4',
+        ".quarterly-category",
+        ".offer-category",
+        "h2, h3, h4",
       ];
 
       // look for categories only under [data-feature="featured-block"]
@@ -179,16 +188,16 @@ class CreditCardCategoryParser {
 
           // Look for Chase category keywords
           const categoryKeywords = [
-            'gas',
-            'grocery',
-            'restaurant',
-            'drugstore',
-            'pharmacy',
-            'streaming',
-            'entertainment',
-            'instacart',
-            'ev charging',
-            'electric vehicle',
+            "gas",
+            "grocery",
+            "restaurant",
+            "drugstore",
+            "pharmacy",
+            "streaming",
+            "entertainment",
+            "instacart",
+            "ev charging",
+            "electric vehicle",
           ];
 
           for (const keyword of categoryKeywords) {
@@ -207,23 +216,23 @@ class CreditCardCategoryParser {
       }
 
       return {
-        source: 'Chase Freedom',
+        source: "Chase Freedom",
         quarter: currentQuarter,
         category:
           results.length > 0
-            ? [...new Set(results)].join(', ')
-            : 'No category found',
+            ? [...new Set(results)].join(", ")
+            : "No category found",
         timestamp: new Date().toISOString(),
       };
     } catch (error) {
       console.error(
-        'Error parsing Chase categories:',
+        "Error parsing Chase categories:",
         (error as Error).message
       );
       return {
-        source: 'Chase Freedom',
-        quarter: '',
-        category: '',
+        source: "Chase Freedom",
+        quarter: "",
+        category: "",
         error: (error as Error).message,
         timestamp: new Date().toISOString(),
       };
@@ -231,7 +240,7 @@ class CreditCardCategoryParser {
   }
 
   async parseAllCategories(): Promise<ParseResults> {
-    console.log('Parsing quarterly credit card categories...');
+    console.log("Parsing quarterly credit card categories...");
 
     const [discoverData, chaseData] = await Promise.all([
       this.parseDiscoverCategories(),
@@ -245,16 +254,16 @@ class CreditCardCategoryParser {
     };
 
     // Write JSON file directly
-    const dataDir = path.join(process.cwd(), '..', 'data');
+    const dataDir = path.join(process.cwd(), "..", "data");
     if (!fs.existsSync(dataDir)) {
       fs.mkdirSync(dataDir, { recursive: true });
     }
 
-    const outputPath = path.join(dataDir, 'categories.json');
+    const outputPath = path.join(dataDir, "categories.json");
     fs.writeFileSync(outputPath, JSON.stringify(results, null, 2));
 
     console.log(`Results written to ${outputPath}`);
-    console.log('Parsing completed successfully!');
+    console.log("Parsing completed successfully!");
 
     return results;
   }

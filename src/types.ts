@@ -1,9 +1,9 @@
 export interface CategoryResult {
-  source: string;
-  quarter: string;
   category: string;
-  timestamp: string;
   error?: string;
+  quarter: string;
+  source: string;
+  timestamp: string;
 }
 
 export interface Category extends CategoryResult {
@@ -11,18 +11,18 @@ export interface Category extends CategoryResult {
 }
 
 export interface ParseResults {
-  discover: CategoryResult;
   chase: CategoryResult;
+  discover: CategoryResult;
   parseDate: string;
 }
 
 export interface WebsiteData {
   currentQuarter: {
-    period: string;
-    discover: Category;
     chase: Category;
+    discover: Category;
+    period: string;
   };
   lastUpdated: string;
   nextUpdate: string;
-  status: 'success' | 'error' | 'loading';
+  status: "success" | "error" | "loading";
 }
