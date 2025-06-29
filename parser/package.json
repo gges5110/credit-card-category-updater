@@ -1,0 +1,23 @@
+{
+  "name": "credit-card-category-parser",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "category-parser.js",
+  "scripts": {
+    "start": "tsx category-parser.ts",
+    "test": "vitest run",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "node-fetch": "^2.7.0",
+    "@types/node-fetch": "^2.6.0",
+    "cheerio": "^1.0.0-rc.12"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2",
+    "tsx": "^4.0.0",
+    "@types/node": "^20.0.0",
+    "vitest": "^1.0.0"
+  },
+  "description": "Parser for quarterly credit card categories from Discover and Chase"
+}

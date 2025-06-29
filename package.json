@@ -1,27 +1,27 @@
 {
-  "name": "credit-card-category-updater",
+  "name": "credit-card-categories-web",
   "version": "1.0.0",
-  "main": "dist/category-parser.js",
+  "type": "module",
   "scripts": {
-    "start": "ts-node src/category-parser.ts",
-    "dev:web": "cd web && npm run dev",
-    "test": "vitest run",
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
   "dependencies": {
-    "node-fetch": "^2.7.0",
-    "@types/node-fetch": "^2.6.0",
-    "cheerio": "^1.0.0-rc.12"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "typescript": "^5.0.0",
-    "ts-node": "^10.9.0",
-    "@types/node": "^20.0.0",
-    "vitest": "^1.0.0",
-    "prettier": "^3.0.0"
-  },
-  "author": "",
-  "license": "ISC",
-  "description": "Parse quarterly categories from Discover and Chase Freedom credit cards"
+    "@types/react": "^18.2.43",
+    "@types/react-dom": "^18.2.17",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.32",
+    "prettier": "^3.6.2",
+    "tailwindcss": "^3.3.6",
+    "typescript": "^5.2.2",
+    "vite": "^5.0.8"
+  }
 }

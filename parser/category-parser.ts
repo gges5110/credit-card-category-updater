@@ -245,7 +245,7 @@ class CreditCardCategoryParser {
     };
 
     // Write JSON file directly
-    const dataDir = path.join(process.cwd(), 'data');
+    const dataDir = path.join(process.cwd(), '..', 'data');
     if (!fs.existsSync(dataDir)) {
       fs.mkdirSync(dataDir, { recursive: true });
     }
@@ -260,9 +260,8 @@ class CreditCardCategoryParser {
   }
 }
 
-if (require.main === module) {
-  const parser = new CreditCardCategoryParser();
-  parser.parseAllCategories().catch(console.error);
-}
+// Run the parser when this file is executed
+const parser = new CreditCardCategoryParser();
+parser.parseAllCategories().catch(console.error);
 
 export default CreditCardCategoryParser;

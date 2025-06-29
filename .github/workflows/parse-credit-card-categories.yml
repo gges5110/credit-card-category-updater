@@ -27,9 +27,9 @@ jobs:
       with:
         node-version: '18'
         cache: 'npm'
-        
-    - name: Install dependencies
-      run: npm ci
+      
+    - name: Install parser dependencies
+      run: cd parser && npm ci
       
     - name: Parse credit card categories
       id: parse-categories
@@ -37,7 +37,7 @@ jobs:
         echo "Starting category parsing..."
         
         # Run parser (it will create data/categories.json directly)
-        if npm start; then
+        if (cd parser && npm start); then
           echo "Category parsing completed successfully"
           
           # Verify the JSON file was created and is valid

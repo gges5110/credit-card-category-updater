@@ -12,11 +12,8 @@ jobs:
       - name: Install dependencies ⬇️
         run: npm install
 
-      - name: Install web dependencies ⬇️
-        run: cd web && npm install
-
       - name: Build 🛠️
-        run: cd web && npm run build
+        run: npm run build
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -25,7 +22,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           # Upload web build output
-          path: 'web/dist'
+          path: 'dist'
   # Deploy job
   deploy:
     # Add a dependency to the build job
