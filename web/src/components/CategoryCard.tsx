@@ -8,8 +8,13 @@ interface CategoryCardProps {
 export const CategoryCard: React.FC<CategoryCardProps> = ({
   categoryResult,
 }) => {
-  const handleAddToCalendar = () => {
-    window.open(categoryResult.calendarUrl, '_blank', 'noopener,noreferrer');
+  const getSourceUrl = (source: string) => {
+    if (source.includes('Discover')) {
+      return 'https://www.discover.com/credit-cards/cashback-bonus/cashback-calendar';
+    } else if (source.includes('Chase')) {
+      return 'https://www.chase.com/personal/credit-cards/freedom/freedomfive';
+    }
+    return '';
   };
 
   const getSourceColor = (source: string) => {
@@ -121,33 +126,61 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({
         <p className="text-base leading-relaxed">{categoryResult.category}</p>
       </div>
 
-      <div className="flex items-center justify-between pt-4 border-t border-current border-opacity-20">
-        <div className="text-sm opacity-75">
-          <p>Quarter: {categoryResult.quarter}</p>
-          <p className="mt-1">
-            Updated: {new Date(categoryResult.timestamp).toLocaleDateString()}
-          </p>
+      <div className="pt-4 border-t border-current border-opacity-20">
+        <div className="flex items-center justify-between mb-3">
+          <div className="text-sm opacity-75">
+            <p>Quarter: {categoryResult.quarter}</p>
+            <p className="mt-1">
+              Updated: {new Date(categoryResult.timestamp).toLocaleDateString()}
+            </p>
+          </div>
         </div>
 
-        <button
-          onClick={handleAddToCalendar}
-          className={`inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 ${getButtonColor(categoryResult.source)}`}
-        >
-          <svg
-            className="h-4 w-4 mr-2"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
+        <div className="flex items-center space-x-3">
+          <a
+            href={categoryResult.calendarUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 no-underline ${getButtonColor(categoryResult.source)}`}
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-            />
-          </svg>
-          Add to Calendar
-        </button>
+            <svg
+              className="h-4 w-4 mr-2"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+              />
+            </svg>
+            Add to Calendar
+          </a>
+
+          <a
+            href={getSourceUrl(categoryResult.source)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center px-4 py-2 border border-current border-opacity-30 text-sm font-medium rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-current hover:border-opacity-50 hover:bg-white hover:bg-opacity-50 no-underline"
+          >
+            <svg
+              className="h-4 w-4 mr-2"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+              />
+            </svg>
+            View Source
+          </a>
+        </div>
       </div>
     </div>
   );
