@@ -4,7 +4,7 @@
   "type": "module",
   "main": "category-parser.js",
   "scripts": {
-    "start": "tsx category-parser.ts",
+    "start": "tsx src/category-parser.ts",
     "test": "vitest run",
     "build": "tsc"
   },

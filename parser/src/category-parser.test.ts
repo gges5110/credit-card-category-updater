@@ -1,8 +1,12 @@
 import { describe, it, expect } from "vitest";
 import CreditCardCategoryParser from "./category-parser";
+import { ChaseParser } from "./chase-parser";
+import { DiscoverParser } from "./discover-parser";
 
 describe("CreditCardCategoryParser - Integration Tests", () => {
   const parser = new CreditCardCategoryParser();
+  const chaseParser = new ChaseParser();
+  const discoverParser = new DiscoverParser();
 
   // Set longer timeout for real HTTP requests
   const timeout = 30000;
@@ -11,7 +15,7 @@ describe("CreditCardCategoryParser - Integration Tests", () => {
     it(
       "should fetch and parse real Discover categories",
       async () => {
-        const result = await parser.parseDiscoverCategories();
+        const result = await discoverParser.parseCategories();
 
         expect(result.source).toBe("Discover");
         expect(result.timestamp).toBeDefined();
@@ -30,7 +34,7 @@ describe("CreditCardCategoryParser - Integration Tests", () => {
     it(
       "should fetch and parse real Chase categories",
       async () => {
-        const result = await parser.parseChaseCategories();
+        const result = await chaseParser.parseCategories();
 
         expect(result.source).toBe("Chase Freedom");
         expect(result.timestamp).toBeDefined();
