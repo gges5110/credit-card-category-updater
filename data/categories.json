@@ -1,15 +1,15 @@
 {
   "discover": {
     "source": "Discover",
-    "quarter": "2025-Q4",
-    "category": "Coming Soon",
-    "timestamp": "2025-07-01T09:14:52.074Z"
+    "quarter": "2025-Q3",
+    "category": "Gas Stations & EV Charging, Public Transit, and Utilities",
+    "timestamp": "2025-07-04T16:45:11.846Z"
   },
   "chase": {
     "source": "Chase Freedom",
     "quarter": "2025-Q3",
     "category": "Gas Stations, EV Charging, Select Live Entertainment, Instacart",
-    "timestamp": "2025-07-01T09:14:51.913Z"
+    "timestamp": "2025-07-04T16:45:11.724Z"
   },
-  "parseDate": "2025-07-01T09:14:52.074Z"
+  "parseDate": "2025-07-04T16:45:11.846Z"
 }

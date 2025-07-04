@@ -30,24 +30,25 @@ export class DiscoverParser extends BaseParser {
 
     // Extract quarter from JSON response
     if (data && data.quarters && Array.isArray(data.quarters)) {
-      // Find the next quarter based on current date
+      // Find the current active quarter based on current date
       const now = new Date();
-      const nextQuarterData = data.quarters.find((quarter: QuarterData) => {
-        if (quarter.quarterLabelStartDate) {
+      const activeQuarterData = data.quarters.find((quarter: QuarterData) => {
+        if (quarter.quarterLabelStartDate && quarter.quarterLabelEndDate) {
           const startDate = new Date(quarter.quarterLabelStartDate);
-          return startDate > now;
+          const endDate = new Date(quarter.quarterLabelEndDate);
+          return now >= startDate && now <= endDate;
         }
         return false;
       });
 
-      if (nextQuarterData) {
+      if (activeQuarterData) {
         // infer quarter from the start date
-        if (nextQuarterData.quarterLabelStartDate) {
+        if (activeQuarterData.quarterLabelStartDate) {
           currentQuarter = inferQuarterFromDate(
-            nextQuarterData.quarterLabelStartDate
+            activeQuarterData.quarterLabelStartDate
           );
         } else {
-          currentQuarter = "Next Quarter";
+          currentQuarter = "Current Quarter";
         }
       }
     }
@@ -60,18 +61,19 @@ export class DiscoverParser extends BaseParser {
 
     // Extract categories from JSON response
     if (data && data.quarters && Array.isArray(data.quarters)) {
-      // Find the next quarter based on current date
+      // Find the current active quarter based on current date
       const now = new Date();
-      const nextQuarterData = data.quarters.find((quarter: QuarterData) => {
-        if (quarter.quarterLabelStartDate) {
+      const activeQuarterData = data.quarters.find((quarter: QuarterData) => {
+        if (quarter.quarterLabelStartDate && quarter.quarterLabelEndDate) {
           const startDate = new Date(quarter.quarterLabelStartDate);
-          return startDate > now;
+          const endDate = new Date(quarter.quarterLabelEndDate);
+          return now >= startDate && now <= endDate;
         }
         return false;
       });
 
-      if (nextQuarterData) {
-        results.push(nextQuarterData.title);
+      if (activeQuarterData) {
+        results.push(activeQuarterData.title);
       }
     }
 

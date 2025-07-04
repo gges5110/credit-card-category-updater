@@ -14,6 +14,7 @@ export interface ParseResults {
 
 export interface QuarterData {
   quarterLabelStartDate?: string;
+  quarterLabelEndDate?: string;
   title: string;
 }
 
