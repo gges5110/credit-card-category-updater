@@ -37,7 +37,10 @@ export class ChaseParser extends BaseParser {
       };
     } catch (error) {
       // When network fails, provide current quarter based on today's date
-      const fallbackResult = this.createErrorResult("Chase Freedom", error as Error);
+      const fallbackResult = this.createErrorResult(
+        "Chase Freedom",
+        error as Error
+      );
       fallbackResult.quarter = inferQuarterFromDate(new Date().toISOString());
       return fallbackResult;
     }
