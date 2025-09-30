@@ -2,8 +2,8 @@ name: Parse Credit Card Categories
 
 on:
   schedule:
-    # Run on the 1st of each month at 9 AM UTC
-    - cron: '0 9 1 * *'
+    # Run on the 28th of each month at 9 AM UTC
+    - cron: '0 9 28 * *'
   workflow_dispatch: # Allow manual trigger
     inputs:
       force_run:
