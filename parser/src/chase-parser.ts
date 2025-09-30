@@ -15,6 +15,7 @@ import {
   parseActivateByDate,
   extractDateComponents,
   inferQuarterFromYearAndMonth,
+  inferQuarterFromDate,
   containsKeyword,
   isValidCategoryText,
 } from "./utils";
@@ -35,7 +36,10 @@ export class ChaseParser extends BaseParser {
         timestamp: new Date().toISOString(),
       };
     } catch (error) {
-      return this.createErrorResult("Chase Freedom", error as Error);
+      // When network fails, provide current quarter based on today's date
+      const fallbackResult = this.createErrorResult("Chase Freedom", error as Error);
+      fallbackResult.quarter = inferQuarterFromDate(new Date().toISOString());
+      return fallbackResult;
     }
   }
 

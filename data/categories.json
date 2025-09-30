@@ -1,17 +1,17 @@
 {
   "discover": {
     "source": "Discover",
-    "quarter": "",
-    "category": "",
+    "quarter": "2025-Q3",
+    "category": "No category found",
     "error": "request to https://card.discover.com/cardissuer/public/rewards/offer/v1/offer-categories failed, reason: getaddrinfo ENOTFOUND card.discover.com",
-    "timestamp": "2025-09-30T21:20:39.623Z"
+    "timestamp": "2025-09-30T21:25:16.357Z"
   },
   "chase": {
     "source": "Chase Freedom",
-    "quarter": "",
-    "category": "",
+    "quarter": "2025-Q3",
+    "category": "No category found",
     "error": "request to https://www.chase.com/personal/credit-cards/freedom/freedomfive failed, reason: getaddrinfo ENOTFOUND www.chase.com",
-    "timestamp": "2025-09-30T21:20:39.624Z"
+    "timestamp": "2025-09-30T21:25:16.359Z"
   },
-  "parseDate": "2025-09-30T21:20:39.624Z"
+  "parseDate": "2025-09-30T21:25:16.359Z"
 }

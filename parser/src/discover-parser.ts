@@ -21,7 +21,10 @@ export class DiscoverParser extends BaseParser {
         timestamp: new Date().toISOString(),
       };
     } catch (error) {
-      return this.createErrorResult("Discover", error as Error);
+      // When network fails, provide current quarter based on today's date
+      const fallbackResult = this.createErrorResult("Discover", error as Error);
+      fallbackResult.quarter = inferQuarterFromDate(new Date().toISOString());
+      return fallbackResult;
     }
   }
 

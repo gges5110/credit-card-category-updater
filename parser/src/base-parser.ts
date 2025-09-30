@@ -1,6 +1,7 @@
 import fetch from "node-fetch";
 import { CategoryResult } from "./types";
 import { PARSER_CONFIG } from "./config";
+import { DEFAULT_QUARTER_LABEL, NO_CATEGORY_FOUND } from "./constants";
 
 export abstract class BaseParser {
   protected async fetchHtml(url: string): Promise<string> {
@@ -11,7 +12,7 @@ export abstract class BaseParser {
     });
 
     if (!response.ok) {
-      throw new Error(`HTTP ${response.status}: ${response.status}`);
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
     }
 
     return await response.text();
@@ -35,8 +36,8 @@ export abstract class BaseParser {
     console.error(`Error parsing ${source} categories:`, error.message);
     return {
       source,
-      quarter: "",
-      category: "",
+      quarter: DEFAULT_QUARTER_LABEL,
+      category: NO_CATEGORY_FOUND,
       error: error.message,
       timestamp: new Date().toISOString(),
     };
