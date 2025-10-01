@@ -10,6 +10,10 @@ export const CHASE_CATEGORY_KEYWORDS = [
   "instacart",
   "ev charging",
   "electric vehicle",
+  "old navy",
+  "chase travel",
+  "department stores",
+  "paypal",
 ] as const;
 
 export const CHASE_CATEGORY_SELECTORS = ["h2, h3, h4"] as const;

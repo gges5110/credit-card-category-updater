@@ -49,18 +49,25 @@ function formatDateForCalendar(date: Date): string {
 }
 
 export function generateCalendarUrl(categoryResult: CategoryResult): string {
-  const { startDate, endDate } = parseQuarterDates(categoryResult.quarter);
+  // Find the active quarter, or fall back to the first quarter
+  const activeQuarter = categoryResult.quarters.find(q => q.status === "active") || categoryResult.quarters[0];
+
+  if (!activeQuarter) {
+    return "";
+  }
+
+  const { startDate, endDate } = parseQuarterDates(activeQuarter.quarter);
   console.log(startDate, endDate);
 
-  const title = `${categoryResult.source}: ${categoryResult.category}`;
+  const title = `${categoryResult.source}: ${activeQuarter.category}`;
   const dates = `${startDate}/${endDate}`;
 
   const details = [
     `Quarterly Credit Card Categories`,
     ``,
     `Source: ${categoryResult.source}`,
-    `Quarter: ${categoryResult.quarter}`,
-    `Categories: ${categoryResult.category}`,
+    `Quarter: ${activeQuarter.quarter}`,
+    `Categories: ${activeQuarter.category}`,
     ``,
     `Remember to activate your quarterly categories for maximum cashback!`,
     ``,

@@ -35,8 +35,7 @@ export abstract class BaseParser {
     console.error(`Error parsing ${source} categories:`, error.message);
     return {
       source,
-      quarter: "",
-      category: "",
+      quarters: [],
       error: error.message,
       timestamp: new Date().toISOString(),
     };

@@ -1,5 +1,5 @@
 import * as cheerio from "cheerio";
-import { CategoryResult } from "./types";
+import { CategoryResult, QuarterInfo } from "./types";
 import { BaseParser } from "./base-parser";
 import { PARSER_CONFIG } from "./config";
 import {
@@ -28,15 +28,51 @@ export class ChaseParser extends BaseParser {
       const currentQuarter = this.parseQuarter($);
       const category = this.parseCategory($);
 
+      const quarters: QuarterInfo[] = [];
+
+      // Chase only provides current quarter information
+      if (category !== NO_CATEGORY_FOUND && currentQuarter) {
+        const { startDate, endDate } = this.estimateQuarterDates(currentQuarter);
+        quarters.push({
+          quarter: currentQuarter,
+          category,
+          status: "active",
+          startDate,
+          endDate,
+        });
+      }
+
       return {
         source: "Chase Freedom",
-        quarter: currentQuarter,
-        category,
+        quarters,
         timestamp: new Date().toISOString(),
       };
     } catch (error) {
       return this.createErrorResult("Chase Freedom", error as Error);
     }
+  }
+
+  private estimateQuarterDates(quarter: string): { startDate: string; endDate: string } {
+    // Parse quarter string like "2025-Q4"
+    const match = quarter.match(/(\d{4})-Q(\d)/);
+    if (!match) {
+      return { startDate: "", endDate: "" };
+    }
+
+    const year = match[1];
+    const q = parseInt(match[2]);
+
+    const quarterDates: Record<number, { start: string; end: string }> = {
+      1: { start: `January 01, ${year}`, end: `March 31, ${year}` },
+      2: { start: `April 01, ${year}`, end: `June 30, ${year}` },
+      3: { start: `July 01, ${year}`, end: `September 30, ${year}` },
+      4: { start: `October 01, ${year}`, end: `December 31, ${year}` },
+    };
+
+    return {
+      startDate: quarterDates[q].start,
+      endDate: quarterDates[q].end,
+    };
   }
 
   private parseQuarter($: cheerio.CheerioAPI): string {

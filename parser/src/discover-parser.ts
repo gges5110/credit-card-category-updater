@@ -1,7 +1,6 @@
-import { CategoryResult, DiscoverResponse, QuarterData } from "./types";
+import { CategoryResult, DiscoverResponse, QuarterData, QuarterInfo } from "./types";
 import { BaseParser } from "./base-parser";
 import { PARSER_CONFIG } from "./config";
-import { DEFAULT_QUARTER_LABEL, NO_CATEGORY_FOUND } from "./constants";
 import { inferQuarterFromDate } from "./utils";
 
 export class DiscoverParser extends BaseParser {
@@ -11,13 +10,11 @@ export class DiscoverParser extends BaseParser {
         PARSER_CONFIG.urls.discover
       )) as DiscoverResponse;
 
-      const currentQuarter = this.parseQuarter(data);
-      const category = this.parseCategory(data);
+      const quarters = this.parseAllQuarters(data);
 
       return {
         source: "Discover",
-        quarter: currentQuarter,
-        category,
+        quarters,
         timestamp: new Date().toISOString(),
       };
     } catch (error) {
@@ -25,58 +22,45 @@ export class DiscoverParser extends BaseParser {
     }
   }
 
-  private parseQuarter(data: DiscoverResponse): string {
-    let currentQuarter = DEFAULT_QUARTER_LABEL;
+  private parseAllQuarters(data: DiscoverResponse): QuarterInfo[] {
+    const quarters: QuarterInfo[] = [];
 
-    // Extract quarter from JSON response
-    if (data && data.quarters && Array.isArray(data.quarters)) {
-      // Find the current active quarter based on current date
-      const now = new Date();
-      const activeQuarterData = data.quarters.find((quarter: QuarterData) => {
-        if (quarter.quarterLabelStartDate && quarter.quarterLabelEndDate) {
-          const startDate = new Date(quarter.quarterLabelStartDate);
-          const endDate = new Date(quarter.quarterLabelEndDate);
-          return now >= startDate && now <= endDate;
-        }
-        return false;
-      });
-
-      if (activeQuarterData) {
-        // infer quarter from the start date
-        if (activeQuarterData.quarterLabelStartDate) {
-          currentQuarter = inferQuarterFromDate(
-            activeQuarterData.quarterLabelStartDate
-          );
-        } else {
-          currentQuarter = "Current Quarter";
-        }
-      }
+    if (!data || !data.quarters || !Array.isArray(data.quarters)) {
+      return quarters;
     }
 
-    return currentQuarter;
-  }
+    const now = new Date();
 
-  private parseCategory(data: DiscoverResponse): string {
-    const results: string[] = [];
-
-    // Extract categories from JSON response
-    if (data && data.quarters && Array.isArray(data.quarters)) {
-      // Find the current active quarter based on current date
-      const now = new Date();
-      const activeQuarterData = data.quarters.find((quarter: QuarterData) => {
-        if (quarter.quarterLabelStartDate && quarter.quarterLabelEndDate) {
-          const startDate = new Date(quarter.quarterLabelStartDate);
-          const endDate = new Date(quarter.quarterLabelEndDate);
-          return now >= startDate && now <= endDate;
-        }
-        return false;
-      });
-
-      if (activeQuarterData) {
-        results.push(activeQuarterData.title);
+    for (const quarter of data.quarters) {
+      if (!quarter.quarterLabelStartDate || !quarter.quarterLabelEndDate) {
+        continue;
       }
+
+      const startDate = new Date(quarter.quarterLabelStartDate);
+      const endDate = new Date(quarter.quarterLabelEndDate);
+
+      // Determine status based on dates
+      let status: "expired" | "active" | "future";
+      if (now < startDate) {
+        status = "future";
+      } else if (now > endDate) {
+        status = "expired";
+      } else {
+        status = "active";
+      }
+
+      quarters.push({
+        quarter: inferQuarterFromDate(quarter.quarterLabelStartDate),
+        category: quarter.title,
+        status,
+        startDate: quarter.quarterLabelStartDate,
+        endDate: quarter.quarterLabelEndDate,
+      });
     }
 
-    return results.length > 0 ? results.join(", ") : NO_CATEGORY_FOUND;
+    // Sort by start date
+    quarters.sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
+
+    return quarters;
   }
 }

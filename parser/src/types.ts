@@ -1,7 +1,14 @@
-export interface CategoryResult {
-  category: string;
-  error?: string;
+export interface QuarterInfo {
   quarter: string;
+  category: string;
+  status: "expired" | "active" | "future";
+  startDate: string;
+  endDate: string;
+}
+
+export interface CategoryResult {
+  quarters: QuarterInfo[];
+  error?: string;
   source: string;
   timestamp: string;
 }

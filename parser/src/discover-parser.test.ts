@@ -18,37 +18,55 @@ describe("DiscoverParser", () => {
         );
       });
 
-      it("should parse current quarter (Q4 2025) categories from fixture data", async () => {
+      it("should parse all quarters from fixture data", async () => {
         const result = await parser.parseCategories();
 
         expect(result.source).toBe("Discover");
-        expect(result.quarter).toBe("2025-Q4");
-        expect(result.category).toBe("Amazon.com and Drug Stores");
+        expect(result.quarters).toHaveLength(4);
         expect(result.timestamp).toBeDefined();
         expect(result.error).toBeUndefined();
+
+        // Verify quarters are sorted by start date
+        const quarters = result.quarters;
+        expect(quarters[0].quarter).toBe("2025-Q1");
+        expect(quarters[1].quarter).toBe("2025-Q2");
+        expect(quarters[2].quarter).toBe("2025-Q3");
+        expect(quarters[3].quarter).toBe("2025-Q4");
       });
 
       it("should identify the active quarter based on current date", async () => {
         const result = await parser.parseCategories();
 
         // Currently in Q4 2025 (Oct 1 - Dec 31, 2025)
-        expect(result.quarter).toBe("2025-Q4");
-        expect(result.category).toBe("Amazon.com and Drug Stores");
+        const activeQuarter = result.quarters.find(q => q.status === "active");
+        expect(activeQuarter).toBeDefined();
+        expect(activeQuarter?.quarter).toBe("2025-Q4");
+        expect(activeQuarter?.category).toBe("Amazon.com and Drug Stores");
       });
 
-      it("should parse all quarters from fixture data", async () => {
-        // Verify the fixture has all expected quarters
-        expect(discoverResponse.quarters).toHaveLength(4);
+      it("should mark expired quarters correctly", async () => {
+        const result = await parser.parseCategories();
 
-        const quarters = discoverResponse.quarters!;
-        expect(quarters[0].title).toBe("Restaurants, Home Improvement Stores, and Select Streaming Services");
-        expect(quarters[0].offerStatus).toBe("expired");
-        expect(quarters[1].title).toBe("Grocery Stores and Wholesale Clubs");
-        expect(quarters[1].offerStatus).toBe("expired");
-        expect(quarters[2].title).toBe("Gas Stations & EV Charging, Public Transit, and Utilities");
-        expect(quarters[2].offerStatus).toBe("expired");
-        expect(quarters[3].title).toBe("Amazon.com and Drug Stores");
-        expect(quarters[3].offerStatus).toBe("qualification");
+        const expiredQuarters = result.quarters.filter(q => q.status === "expired");
+        expect(expiredQuarters).toHaveLength(3);
+
+        expect(expiredQuarters[0].quarter).toBe("2025-Q1");
+        expect(expiredQuarters[0].category).toBe("Restaurants, Home Improvement Stores, and Select Streaming Services");
+        expect(expiredQuarters[1].quarter).toBe("2025-Q2");
+        expect(expiredQuarters[1].category).toBe("Grocery Stores and Wholesale Clubs");
+        expect(expiredQuarters[2].quarter).toBe("2025-Q3");
+        expect(expiredQuarters[2].category).toBe("Gas Stations & EV Charging, Public Transit, and Utilities");
+      });
+
+      it("should include start and end dates for each quarter", async () => {
+        const result = await parser.parseCategories();
+
+        result.quarters.forEach(quarter => {
+          expect(quarter.startDate).toBeDefined();
+          expect(quarter.endDate).toBeDefined();
+          expect(typeof quarter.startDate).toBe("string");
+          expect(typeof quarter.endDate).toBe("string");
+        });
       });
     });
 
@@ -72,8 +90,9 @@ describe("DiscoverParser", () => {
         const result = await parser.parseCategories();
 
         expect(result.source).toBe("Discover");
-        expect(result.quarter).toBe("Current Quarter");
-        expect(result.category).toBe("No category found");
+        expect(result.quarters).toHaveLength(1);
+        expect(result.quarters[0].status).toBe("expired");
+        expect(result.quarters[0].quarter).toBe("2025-Q1");
       });
     });
 
@@ -88,8 +107,7 @@ describe("DiscoverParser", () => {
         const result = await parser.parseCategories();
 
         expect(result.source).toBe("Discover");
-        expect(result.quarter).toBe("Current Quarter");
-        expect(result.category).toBe("No category found");
+        expect(result.quarters).toHaveLength(0);
       });
 
       it("should handle missing quarters property", async () => {
@@ -100,8 +118,7 @@ describe("DiscoverParser", () => {
         const result = await parser.parseCategories();
 
         expect(result.source).toBe("Discover");
-        expect(result.quarter).toBe("Current Quarter");
-        expect(result.category).toBe("No category found");
+        expect(result.quarters).toHaveLength(0);
       });
     });
 
@@ -115,8 +132,33 @@ describe("DiscoverParser", () => {
 
         expect(result.source).toBe("Discover");
         expect(result.error).toBe("Network error");
-        expect(result.quarter).toBe("");
-        expect(result.category).toBe("");
+        expect(result.quarters).toHaveLength(0);
+      });
+    });
+
+    describe("with future quarters", () => {
+      it("should mark future quarters correctly", async () => {
+        const futureQuartersData: DiscoverResponse = {
+          quarters: [
+            {
+              title: "Future Category",
+              quarterLabelStartDate: "January 01, 2026",
+              quarterLabelEndDate: "March 31, 2026",
+            },
+          ],
+        };
+
+        vi.spyOn(parser as any, "fetchJson").mockResolvedValue(
+          futureQuartersData
+        );
+
+        const result = await parser.parseCategories();
+
+        expect(result.source).toBe("Discover");
+        expect(result.quarters).toHaveLength(1);
+        expect(result.quarters[0].status).toBe("future");
+        expect(result.quarters[0].quarter).toBe("2026-Q1");
+        expect(result.quarters[0].category).toBe("Future Category");
       });
     });
   });

@@ -1,12 +1,23 @@
-export interface CategoryResult {
-  category: string;
-  error?: string;
+export interface QuarterInfo {
   quarter: string;
+  category: string;
+  status: "expired" | "active" | "future";
+  startDate: string;
+  endDate: string;
+}
+
+export interface CategoryResult {
+  quarters: QuarterInfo[];
+  error?: string;
   source: string;
   timestamp: string;
 }
 
-export interface Category extends CategoryResult {
+export interface Category {
+  quarters: QuarterInfo[];
+  error?: string;
+  source: string;
+  timestamp: string;
   calendarUrl: string;
 }
 
@@ -17,11 +28,8 @@ export interface ParseResults {
 }
 
 export interface WebsiteData {
-  currentQuarter: {
-    chase: Category;
-    discover: Category;
-    period: string;
-  };
+  discover: Category;
+  chase: Category;
   lastUpdated: string;
   nextUpdate: string;
   status: "success" | "error" | "loading";

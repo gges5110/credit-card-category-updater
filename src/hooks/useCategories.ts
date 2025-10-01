@@ -6,7 +6,9 @@ import {
 } from "src/utils/calendarUtils";
 
 const DATA_URL =
-  "https://raw.githubusercontent.com/gges5110/credit-card-category-updater/refs/heads/main/data/categories.json";
+  import.meta.env.DEV
+    ? "/credit-card-category-updater/categories.json"
+    : "https://raw.githubusercontent.com/gges5110/credit-card-category-updater/refs/heads/main/data/categories.json";
 
 export function useCategories() {
   const [data, setData] = useState<WebsiteData | null>(null);
@@ -29,18 +31,14 @@ export function useCategories() {
       const rawData: ParseResults = await response.json();
 
       // Transform raw parser data into website format
-      const quarter = rawData.discover.quarter || rawData.chase.quarter;
       const websiteData: WebsiteData = {
-        currentQuarter: {
-          period: quarter,
-          discover: {
-            ...rawData.discover,
-            calendarUrl: generateCalendarUrl(rawData.discover),
-          },
-          chase: {
-            ...rawData.chase,
-            calendarUrl: generateCalendarUrl(rawData.chase),
-          },
+        discover: {
+          ...rawData.discover,
+          calendarUrl: generateCalendarUrl(rawData.discover),
+        },
+        chase: {
+          ...rawData.chase,
+          calendarUrl: generateCalendarUrl(rawData.chase),
         },
         lastUpdated: rawData.parseDate,
         nextUpdate: getNextUpdateDate(),
@@ -52,22 +50,19 @@ export function useCategories() {
       console.error("Failed to fetch categories:", err);
       setError(err instanceof Error ? err.message : "Unknown error occurred");
       setData({
-        currentQuarter: {
-          period: "Unknown",
-          discover: {
-            category: "Error loading categories",
-            calendarUrl: "",
-            source: "Discover",
-            timestamp: "",
-            quarter: "",
-          },
-          chase: {
-            category: "Error loading categories",
-            calendarUrl: "",
-            source: "Chase Freedom",
-            timestamp: "",
-            quarter: "",
-          },
+        discover: {
+          quarters: [],
+          error: "Error loading categories",
+          calendarUrl: "",
+          source: "Discover",
+          timestamp: "",
+        },
+        chase: {
+          quarters: [],
+          error: "Error loading categories",
+          calendarUrl: "",
+          source: "Chase Freedom",
+          timestamp: "",
         },
         lastUpdated: new Date().toISOString(),
         nextUpdate: getNextUpdateDate(),

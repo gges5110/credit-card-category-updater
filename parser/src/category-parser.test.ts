@@ -19,14 +19,23 @@ describe("CreditCardCategoryParser - Integration Tests", () => {
 
         expect(result.source).toBe("Discover");
         expect(result.timestamp).toBeDefined();
-        expect(typeof result.quarter).toBe("string");
-        expect(typeof result.category).toBe("string");
+        expect(Array.isArray(result.quarters)).toBe(true);
 
         // Log the actual results for inspection
         console.log("Discover Result:", result);
 
-        // The category should be either a real category or "No category found"
-        expect(result.category.length).toBeGreaterThan(0);
+        // Should have quarters data
+        expect(result.quarters.length).toBeGreaterThan(0);
+
+        // Each quarter should have required fields
+        result.quarters.forEach(quarter => {
+          expect(quarter).toHaveProperty("quarter");
+          expect(quarter).toHaveProperty("category");
+          expect(quarter).toHaveProperty("status");
+          expect(quarter).toHaveProperty("startDate");
+          expect(quarter).toHaveProperty("endDate");
+          expect(["expired", "active", "future"]).toContain(quarter.status);
+        });
       },
       timeout
     );
@@ -38,14 +47,21 @@ describe("CreditCardCategoryParser - Integration Tests", () => {
 
         expect(result.source).toBe("Chase Freedom");
         expect(result.timestamp).toBeDefined();
-        expect(typeof result.quarter).toBe("string");
-        expect(typeof result.category).toBe("string");
+        expect(Array.isArray(result.quarters)).toBe(true);
 
         // Log the actual results for inspection
         console.log("Chase Result:", result);
 
-        // The category should be either a real category or "No category found"
-        expect(result.category.length).toBeGreaterThan(0);
+        // Chase should have at least 0 or 1 quarter (current quarter if found)
+        expect(result.quarters.length).toBeGreaterThanOrEqual(0);
+
+        // If quarters exist, verify structure
+        result.quarters.forEach(quarter => {
+          expect(quarter).toHaveProperty("quarter");
+          expect(quarter).toHaveProperty("category");
+          expect(quarter).toHaveProperty("status");
+          expect(quarter.status).toBe("active"); // Chase only returns current quarter
+        });
       },
       timeout
     );
@@ -62,6 +78,10 @@ describe("CreditCardCategoryParser - Integration Tests", () => {
         // Both sources should return data
         expect(results.discover.source).toBe("Discover");
         expect(results.chase.source).toBe("Chase Freedom");
+
+        // Verify quarters arrays exist
+        expect(Array.isArray(results.discover.quarters)).toBe(true);
+        expect(Array.isArray(results.chase.quarters)).toBe(true);
 
         // Log full results for inspection
         console.log(
