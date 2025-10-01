@@ -6,17 +6,19 @@ export interface QuarterInfo {
   endDate: string;
 }
 
+export type Source = "Discover" | "Chase Freedom";
+
 export interface CategoryResult {
   quarters: QuarterInfo[];
   error?: string;
-  source: string;
+  source: Source;
   timestamp: string;
 }
 
 export interface Category {
   quarters: QuarterInfo[];
   error?: string;
-  source: string;
+  source: Source;
   timestamp: string;
   calendarUrl: string;
 }

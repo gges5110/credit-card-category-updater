@@ -1,9 +1,10 @@
 import React from "react";
 import { getSourceUrl, getButtonColor } from "src/utils/sourceUtils";
+import { Source } from "src/types.ts";
 
 interface CategoryActionsProps {
   calendarUrl: string;
-  source: string;
+  source: Source;
 }
 
 export const CategoryActions: React.FC<CategoryActionsProps> = ({
