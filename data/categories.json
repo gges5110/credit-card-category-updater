@@ -1,15 +1,15 @@
 {
   "discover": {
     "source": "Discover",
-    "quarter": "Current Quarter",
-    "category": "No category found",
-    "timestamp": "2025-09-30T21:12:37.892Z"
+    "quarter": "2025-Q4",
+    "category": "Amazon.com and Drug Stores",
+    "timestamp": "2025-10-01T14:41:15.748Z"
   },
   "chase": {
     "source": "Chase Freedom",
     "quarter": "2025-Q4",
     "category": "No category found",
-    "timestamp": "2025-09-30T21:12:37.812Z"
+    "timestamp": "2025-10-01T14:41:15.798Z"
   },
-  "parseDate": "2025-09-30T21:12:37.892Z"
+  "parseDate": "2025-10-01T14:41:15.798Z"
 }
