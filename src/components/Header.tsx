@@ -1,4 +1,5 @@
 import React from "react";
+import { CreditCardIcon, RefreshIcon, ClockIcon } from "src/icons";
 
 interface HeaderProps {
   lastUpdated?: string;
@@ -11,22 +12,7 @@ export const Header: React.FC<HeaderProps> = ({ lastUpdated, nextUpdate }) => {
       <div className={"max-w-4xl mx-auto px-4 py-8"}>
         <div className={"text-center"}>
           <div className={"flex items-center justify-center mb-4"}>
-            <svg
-              className={"h-8 w-8 text-blue-600 mr-3"}
-              fill={"none"}
-              stroke={"currentColor"}
-              viewBox={"0 0 24 24"}
-            >
-              <rect
-                height={"16"}
-                rx={"2"}
-                ry={"2"}
-                width={"22"}
-                x={"1"}
-                y={"4"}
-              />
-              <line x1={"1"} x2={"23"} y1={"10"} y2={"10"} />
-            </svg>
+            <CreditCardIcon className="h-8 w-8 text-blue-600 mr-3" />
             <h1 className={"text-3xl font-bold text-gray-900"}>
               Credit Card Categories
             </h1>
@@ -50,21 +36,7 @@ export const Header: React.FC<HeaderProps> = ({ lastUpdated, nextUpdate }) => {
             >
               {lastUpdated && (
                 <div className={"flex items-center"}>
-                  <svg
-                    className={"h-4 w-4 mr-2"}
-                    fill={"none"}
-                    stroke={"currentColor"}
-                    viewBox={"0 0 24 24"}
-                  >
-                    <path
-                      d={
-                        "M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                      }
-                      strokeLinecap={"round"}
-                      strokeLinejoin={"round"}
-                      strokeWidth={2}
-                    />
-                  </svg>
+                  <RefreshIcon className="h-4 w-4 mr-2" />
                   <span>
                     Last updated: {new Date(lastUpdated).toLocaleDateString()}
                   </span>
@@ -73,19 +45,7 @@ export const Header: React.FC<HeaderProps> = ({ lastUpdated, nextUpdate }) => {
 
               {nextUpdate && (
                 <div className={"flex items-center"}>
-                  <svg
-                    className={"h-4 w-4 mr-2"}
-                    fill={"none"}
-                    stroke={"currentColor"}
-                    viewBox={"0 0 24 24"}
-                  >
-                    <path
-                      d={"M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"}
-                      strokeLinecap={"round"}
-                      strokeLinejoin={"round"}
-                      strokeWidth={2}
-                    />
-                  </svg>
+                  <ClockIcon className="h-4 w-4 mr-2" />
                   <span>Next update: {nextUpdate}</span>
                 </div>
               )}

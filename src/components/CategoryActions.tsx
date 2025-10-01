@@ -1,6 +1,7 @@
 import React from "react";
 import { getSourceUrl, getButtonColor } from "src/utils/sourceUtils";
-import { Source } from "src/types.ts";
+import { Source } from "src/types";
+import { CalendarIcon, ExternalLinkIcon } from "src/icons";
 
 interface CategoryActionsProps {
   calendarUrl: string;
@@ -19,21 +20,7 @@ export const CategoryActions: React.FC<CategoryActionsProps> = ({
         rel={"noopener noreferrer"}
         target={"_blank"}
       >
-        <svg
-          className={"h-4 w-4 mr-2"}
-          fill={"none"}
-          stroke={"currentColor"}
-          viewBox={"0 0 24 24"}
-        >
-          <path
-            d={
-              "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-            }
-            strokeLinecap={"round"}
-            strokeLinejoin={"round"}
-            strokeWidth={2}
-          />
-        </svg>
+        <CalendarIcon className="h-4 w-4 mr-2" />
         Add to Calendar
       </a>
 
@@ -45,21 +32,7 @@ export const CategoryActions: React.FC<CategoryActionsProps> = ({
         rel={"noopener noreferrer"}
         target={"_blank"}
       >
-        <svg
-          className={"h-4 w-4 mr-2"}
-          fill={"none"}
-          stroke={"currentColor"}
-          viewBox={"0 0 24 24"}
-        >
-          <path
-            d={
-              "M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-            }
-            strokeLinecap={"round"}
-            strokeLinejoin={"round"}
-            strokeWidth={2}
-          />
-        </svg>
+        <ExternalLinkIcon className="h-4 w-4 mr-2" />
         View Source
       </a>
     </div>
