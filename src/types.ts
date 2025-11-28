@@ -1,26 +1,26 @@
 export interface QuarterInfo {
-  quarter: string;
   category: string;
-  status: "expired" | "active" | "future";
-  startDate: string;
   endDate: string;
+  quarter: string;
+  startDate: string;
+  status: "expired" | "active" | "future";
 }
 
 export type Source = "Discover" | "Chase Freedom";
 
 export interface CategoryResult {
-  quarters: QuarterInfo[];
   error?: string;
+  quarters: QuarterInfo[];
   source: Source;
   timestamp: string;
 }
 
 export interface Category {
-  quarters: QuarterInfo[];
+  calendarUrl: string;
   error?: string;
+  quarters: QuarterInfo[];
   source: Source;
   timestamp: string;
-  calendarUrl: string;
 }
 
 export interface ParseResults {
@@ -30,8 +30,8 @@ export interface ParseResults {
 }
 
 export interface WebsiteData {
-  discover: Category;
   chase: Category;
+  discover: Category;
   lastUpdated: string;
   nextUpdate: string;
   status: "success" | "error" | "loading";

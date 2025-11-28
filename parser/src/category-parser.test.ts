@@ -28,7 +28,7 @@ describe("CreditCardCategoryParser - Integration Tests", () => {
         expect(result.quarters.length).toBeGreaterThan(0);
 
         // Each quarter should have required fields
-        result.quarters.forEach(quarter => {
+        result.quarters.forEach((quarter) => {
           expect(quarter).toHaveProperty("quarter");
           expect(quarter).toHaveProperty("category");
           expect(quarter).toHaveProperty("status");
@@ -56,7 +56,7 @@ describe("CreditCardCategoryParser - Integration Tests", () => {
         expect(result.quarters.length).toBeGreaterThanOrEqual(0);
 
         // If quarters exist, verify structure
-        result.quarters.forEach(quarter => {
+        result.quarters.forEach((quarter) => {
           expect(quarter).toHaveProperty("quarter");
           expect(quarter).toHaveProperty("category");
           expect(quarter).toHaveProperty("status");

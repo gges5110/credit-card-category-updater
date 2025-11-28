@@ -11,7 +11,7 @@ export const EmptyStateCard: React.FC<EmptyStateCardProps> = ({ source }) => {
     <div className={"bg-yellow-50 border border-yellow-200 rounded-lg p-6"}>
       <div className={"flex items-center mb-3"}>
         <div className={"flex-shrink-0"}>
-          <AlertTriangleIcon className="h-5 w-5 text-yellow-400" />
+          <AlertTriangleIcon className={"h-5 w-5 text-yellow-400"} />
         </div>
         <h3 className={"text-lg font-medium text-yellow-800 ml-3"}>{source}</h3>
       </div>

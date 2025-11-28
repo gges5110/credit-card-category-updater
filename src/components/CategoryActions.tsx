@@ -20,7 +20,7 @@ export const CategoryActions: React.FC<CategoryActionsProps> = ({
         rel={"noopener noreferrer"}
         target={"_blank"}
       >
-        <CalendarIcon className="h-4 w-4 mr-2" />
+        <CalendarIcon className={"h-4 w-4 mr-2"} />
         Add to Calendar
       </a>
 
@@ -32,7 +32,7 @@ export const CategoryActions: React.FC<CategoryActionsProps> = ({
         rel={"noopener noreferrer"}
         target={"_blank"}
       >
-        <ExternalLinkIcon className="h-4 w-4 mr-2" />
+        <ExternalLinkIcon className={"h-4 w-4 mr-2"} />
         View Source
       </a>
     </div>

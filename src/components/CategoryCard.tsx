@@ -26,8 +26,12 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({
     return <EmptyStateCard source={categoryResult.source} />;
   }
 
-  const activeQuarter = categoryResult.quarters.find(q => q.status === "active");
-  const otherQuarters = categoryResult.quarters.filter(q => q.status !== "active");
+  const activeQuarter = categoryResult.quarters.find(
+    (q) => q.status === "active"
+  );
+  const otherQuarters = categoryResult.quarters.filter(
+    (q) => q.status !== "active"
+  );
 
   return (
     <div
@@ -39,7 +43,7 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({
         <h3 className={"text-xl font-semibold"}>{categoryResult.source}</h3>
         {activeQuarter && (
           <div className={"flex items-center space-x-2"}>
-            <MapPinIcon className="h-5 w-5" />
+            <MapPinIcon className={"h-5 w-5"} />
             <span className={"text-sm font-medium"}>Active Quarter</span>
           </div>
         )}
@@ -47,10 +51,15 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({
 
       {activeQuarter && (
         <div className={"mb-4"}>
-          <h4 className={"text-sm font-medium mb-2 opacity-75"}>Current Categories:</h4>
-          <p className={"text-base leading-relaxed mb-2"}>{activeQuarter.category}</p>
+          <h4 className={"text-sm font-medium mb-2 opacity-75"}>
+            Current Categories:
+          </h4>
+          <p className={"text-base leading-relaxed mb-2"}>
+            {activeQuarter.category}
+          </p>
           <p className={"text-sm opacity-75"}>
-            {new Date(activeQuarter.startDate).toLocaleDateString()} - {new Date(activeQuarter.endDate).toLocaleDateString()}
+            {new Date(activeQuarter.startDate).toLocaleDateString()} -{" "}
+            {new Date(activeQuarter.endDate).toLocaleDateString()}
           </p>
         </div>
       )}
@@ -58,11 +67,18 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({
       {otherQuarters.length > 0 && (
         <div className={"mb-4"}>
           <button
+            className={
+              "text-sm font-medium opacity-75 hover:opacity-100 transition-opacity flex items-center"
+            }
             onClick={() => setShowAllQuarters(!showAllQuarters)}
-            className={"text-sm font-medium opacity-75 hover:opacity-100 transition-opacity flex items-center"}
           >
-            <span>{showAllQuarters ? "Hide" : "Show"} all quarters ({otherQuarters.length})</span>
-            <ChevronDownIcon className={`ml-1 h-4 w-4 transition-transform ${showAllQuarters ? "rotate-180" : ""}`} />
+            <span>
+              {showAllQuarters ? "Hide" : "Show"} all quarters (
+              {otherQuarters.length})
+            </span>
+            <ChevronDownIcon
+              className={`ml-1 h-4 w-4 transition-transform ${showAllQuarters ? "rotate-180" : ""}`}
+            />
           </button>
           {showAllQuarters && (
             <div className={"mt-3"}>
@@ -77,7 +93,10 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({
       <div className={"pt-4 border-t border-current border-opacity-20"}>
         <div className={"flex items-center justify-between mb-3"}>
           <div className={"text-sm opacity-75"}>
-            <p>Quarter: {activeQuarter?.quarter || categoryResult.quarters[0].quarter}</p>
+            <p>
+              Quarter:{" "}
+              {activeQuarter?.quarter || categoryResult.quarters[0].quarter}
+            </p>
             <p className={"mt-1"}>
               Updated: {new Date(categoryResult.timestamp).toLocaleDateString()}
             </p>

@@ -13,7 +13,7 @@ export const ErrorState: React.FC<ErrorStateProps> = ({ onRetry }) => {
           "inline-flex items-center justify-center w-16 h-16 bg-red-100 rounded-full mb-6"
         }
       >
-        <WarningIcon className="h-8 w-8 text-red-600" />
+        <WarningIcon className={"h-8 w-8 text-red-600"} />
       </div>
 
       <h2 className={"text-2xl font-semibold text-gray-900 mb-4"}>
@@ -33,7 +33,7 @@ export const ErrorState: React.FC<ErrorStateProps> = ({ onRetry }) => {
             }
             onClick={onRetry}
           >
-            <RefreshIcon className="h-5 w-5 mr-2" />
+            <RefreshIcon className={"h-5 w-5 mr-2"} />
             Try Again
           </button>
         )}

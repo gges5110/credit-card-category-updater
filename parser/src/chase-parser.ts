@@ -32,7 +32,8 @@ export class ChaseParser extends BaseParser {
 
       // Chase only provides current quarter information
       if (category !== NO_CATEGORY_FOUND && currentQuarter) {
-        const { startDate, endDate } = this.estimateQuarterDates(currentQuarter);
+        const { startDate, endDate } =
+          this.estimateQuarterDates(currentQuarter);
         quarters.push({
           quarter: currentQuarter,
           category,
@@ -52,7 +53,10 @@ export class ChaseParser extends BaseParser {
     }
   }
 
-  private estimateQuarterDates(quarter: string): { startDate: string; endDate: string } {
+  private estimateQuarterDates(quarter: string): {
+    endDate: string;
+    startDate: string;
+  } {
     // Parse quarter string like "2025-Q4"
     const match = quarter.match(/(\d{4})-Q(\d)/);
     if (!match) {
@@ -62,7 +66,7 @@ export class ChaseParser extends BaseParser {
     const year = match[1];
     const q = parseInt(match[2]);
 
-    const quarterDates: Record<number, { start: string; end: string }> = {
+    const quarterDates: Record<number, { end: string; start: string }> = {
       1: { start: `January 01, ${year}`, end: `March 31, ${year}` },
       2: { start: `April 01, ${year}`, end: `June 30, ${year}` },
       3: { start: `July 01, ${year}`, end: `September 30, ${year}` },

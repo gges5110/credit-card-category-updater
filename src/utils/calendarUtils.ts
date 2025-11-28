@@ -50,7 +50,9 @@ function formatDateForCalendar(date: Date): string {
 
 export function generateCalendarUrl(categoryResult: CategoryResult): string {
   // Find the active quarter, or fall back to the first quarter
-  const activeQuarter = categoryResult.quarters.find(q => q.status === "active") || categoryResult.quarters[0];
+  const activeQuarter =
+    categoryResult.quarters.find((q) => q.status === "active") ||
+    categoryResult.quarters[0];
 
   if (!activeQuarter) {
     return "";

@@ -38,7 +38,9 @@ describe("DiscoverParser", () => {
         const result = await parser.parseCategories();
 
         // Currently in Q4 2025 (Oct 1 - Dec 31, 2025)
-        const activeQuarter = result.quarters.find(q => q.status === "active");
+        const activeQuarter = result.quarters.find(
+          (q) => q.status === "active"
+        );
         expect(activeQuarter).toBeDefined();
         expect(activeQuarter?.quarter).toBe("2025-Q4");
         expect(activeQuarter?.category).toBe("Amazon.com and Drug Stores");
@@ -47,21 +49,29 @@ describe("DiscoverParser", () => {
       it("should mark expired quarters correctly", async () => {
         const result = await parser.parseCategories();
 
-        const expiredQuarters = result.quarters.filter(q => q.status === "expired");
+        const expiredQuarters = result.quarters.filter(
+          (q) => q.status === "expired"
+        );
         expect(expiredQuarters).toHaveLength(3);
 
         expect(expiredQuarters[0].quarter).toBe("2025-Q1");
-        expect(expiredQuarters[0].category).toBe("Restaurants, Home Improvement Stores, and Select Streaming Services");
+        expect(expiredQuarters[0].category).toBe(
+          "Restaurants, Home Improvement Stores, and Select Streaming Services"
+        );
         expect(expiredQuarters[1].quarter).toBe("2025-Q2");
-        expect(expiredQuarters[1].category).toBe("Grocery Stores and Wholesale Clubs");
+        expect(expiredQuarters[1].category).toBe(
+          "Grocery Stores and Wholesale Clubs"
+        );
         expect(expiredQuarters[2].quarter).toBe("2025-Q3");
-        expect(expiredQuarters[2].category).toBe("Gas Stations & EV Charging, Public Transit, and Utilities");
+        expect(expiredQuarters[2].category).toBe(
+          "Gas Stations & EV Charging, Public Transit, and Utilities"
+        );
       });
 
       it("should include start and end dates for each quarter", async () => {
         const result = await parser.parseCategories();
 
-        result.quarters.forEach(quarter => {
+        result.quarters.forEach((quarter) => {
           expect(quarter.startDate).toBeDefined();
           expect(quarter.endDate).toBeDefined();
           expect(typeof quarter.startDate).toBe("string");
@@ -76,7 +86,8 @@ describe("DiscoverParser", () => {
         const expiredQuartersData: DiscoverResponse = {
           quarters: [
             {
-              title: "Restaurants, Home Improvement Stores, and Select Streaming Services",
+              title:
+                "Restaurants, Home Improvement Stores, and Select Streaming Services",
               quarterLabelStartDate: "January 01, 2025",
               quarterLabelEndDate: "March 31, 2025",
             },

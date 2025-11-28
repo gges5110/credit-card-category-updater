@@ -30,9 +30,14 @@ function App() {
   }
 
   // Find active quarters
-  const activeDiscoverQuarter = data?.discover.quarters.find(q => q.status === "active");
-  const activeChaseQuarter = data?.chase.quarters.find(q => q.status === "active");
-  const activePeriod = activeDiscoverQuarter?.quarter || activeChaseQuarter?.quarter;
+  const activeDiscoverQuarter = data?.discover.quarters.find(
+    (q) => q.status === "active"
+  );
+  const activeChaseQuarter = data?.chase.quarters.find(
+    (q) => q.status === "active"
+  );
+  const activePeriod =
+    activeDiscoverQuarter?.quarter || activeChaseQuarter?.quarter;
 
   return (
     <div className={"min-h-screen bg-gray-50"}>

@@ -5,7 +5,8 @@ import {
   getNextUpdateDate,
 } from "src/utils/calendarUtils";
 
-const DATA_URL = "https://raw.githubusercontent.com/gges5110/credit-card-category-updater/refs/heads/main/data/categories.json";
+const DATA_URL =
+  "https://raw.githubusercontent.com/gges5110/credit-card-category-updater/refs/heads/main/data/categories.json";
 
 export function useCategories() {
   const [data, setData] = useState<WebsiteData | null>(null);

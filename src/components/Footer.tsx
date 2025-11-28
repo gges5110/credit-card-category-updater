@@ -21,7 +21,7 @@ export const Footer: React.FC = () => {
               rel={"noopener noreferrer"}
               target={"_blank"}
             >
-              <GitHubIcon className="h-4 w-4 mr-2" />
+              <GitHubIcon className={"h-4 w-4 mr-2"} />
               View on GitHub
             </a>
 
@@ -48,7 +48,9 @@ export const Footer: React.FC = () => {
           >
             <div className={"flex items-start"}>
               <div className={"flex-shrink-0"}>
-                <AlertTriangleIcon className="h-5 w-5 text-yellow-400 mt-0.5" />
+                <AlertTriangleIcon
+                  className={"h-5 w-5 text-yellow-400 mt-0.5"}
+                />
               </div>
               <div className={"ml-3"}>
                 <h3 className={"text-sm font-medium text-yellow-800"}>

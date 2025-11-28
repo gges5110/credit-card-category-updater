@@ -58,7 +58,9 @@ describe("CategoryCard", () => {
 
       render(<CategoryCard categoryResult={categoryResult} />);
 
-      expect(screen.getByText("Amazon.com and Drug Stores")).toBeInTheDocument();
+      expect(
+        screen.getByText("Amazon.com and Drug Stores")
+      ).toBeInTheDocument();
       expect(screen.getByText("Current Categories:")).toBeInTheDocument();
       expect(screen.getByText("Active Quarter")).toBeInTheDocument();
     });

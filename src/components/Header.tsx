@@ -12,7 +12,7 @@ export const Header: React.FC<HeaderProps> = ({ lastUpdated, nextUpdate }) => {
       <div className={"max-w-4xl mx-auto px-4 py-8"}>
         <div className={"text-center"}>
           <div className={"flex items-center justify-center mb-4"}>
-            <CreditCardIcon className="h-8 w-8 text-blue-600 mr-3" />
+            <CreditCardIcon className={"h-8 w-8 text-blue-600 mr-3"} />
             <h1 className={"text-3xl font-bold text-gray-900"}>
               Credit Card Categories
             </h1>
@@ -36,7 +36,7 @@ export const Header: React.FC<HeaderProps> = ({ lastUpdated, nextUpdate }) => {
             >
               {lastUpdated && (
                 <div className={"flex items-center"}>
-                  <RefreshIcon className="h-4 w-4 mr-2" />
+                  <RefreshIcon className={"h-4 w-4 mr-2"} />
                   <span>
                     Last updated: {new Date(lastUpdated).toLocaleDateString()}
                   </span>
@@ -45,7 +45,7 @@ export const Header: React.FC<HeaderProps> = ({ lastUpdated, nextUpdate }) => {
 
               {nextUpdate && (
                 <div className={"flex items-center"}>
-                  <ClockIcon className="h-4 w-4 mr-2" />
+                  <ClockIcon className={"h-4 w-4 mr-2"} />
                   <span>Next update: {nextUpdate}</span>
                 </div>
               )}

@@ -1,4 +1,4 @@
-import { CategoryResult, DiscoverResponse, QuarterData, QuarterInfo } from "./types";
+import { CategoryResult, DiscoverResponse, QuarterInfo } from "./types";
 import { BaseParser } from "./base-parser";
 import { PARSER_CONFIG } from "./config";
 import { inferQuarterFromDate } from "./utils";
@@ -59,7 +59,10 @@ export class DiscoverParser extends BaseParser {
     }
 
     // Sort by start date
-    quarters.sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
+    quarters.sort(
+      (a, b) =>
+        new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
+    );
 
     return quarters;
   }
