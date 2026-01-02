@@ -3,16 +3,9 @@
     "source": "Discover",
     "quarters": [
       {
-        "quarter": "2025-Q4",
-        "category": "Amazon.com and Drug Stores",
-        "status": "active",
-        "startDate": "October 01, 2025",
-        "endDate": "December 31, 2025"
-      },
-      {
         "quarter": "2026-Q1",
         "category": "Grocery Stores, Wholesale Clubs, and Select Streaming Services",
-        "status": "future",
+        "status": "active",
         "startDate": "January 01, 2026",
         "endDate": "March 31, 2026"
       },
@@ -38,12 +31,12 @@
         "endDate": "December 31, 2026"
       }
     ],
-    "timestamp": "2025-12-28T09:27:32.932Z"
+    "timestamp": "2026-01-02T21:38:42.276Z"
   },
   "chase": {
     "source": "Chase Freedom",
     "quarters": [],
-    "timestamp": "2025-12-28T09:27:32.866Z"
+    "timestamp": "2026-01-02T21:38:42.187Z"
   },
-  "parseDate": "2025-12-28T09:27:32.932Z"
+  "parseDate": "2026-01-02T21:38:42.276Z"
 }
