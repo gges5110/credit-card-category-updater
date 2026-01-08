@@ -3,48 +3,40 @@
     "source": "Discover",
     "quarters": [
       {
-        "quarter": "2025-Q1",
-        "category": "Restaurants, Home Improvement Stores, and Select Streaming Services",
-        "status": "expired",
-        "startDate": "January 01, 2025",
-        "endDate": "March 31, 2025"
-      },
-      {
-        "quarter": "2025-Q2",
-        "category": "Grocery Stores and Wholesale Clubs",
-        "status": "expired",
-        "startDate": "April 01, 2025",
-        "endDate": "June 30, 2025"
-      },
-      {
-        "quarter": "2025-Q3",
-        "category": "Gas Stations & EV Charging, Public Transit, and Utilities",
-        "status": "expired",
-        "startDate": "July 01, 2025",
-        "endDate": "September 30, 2025"
-      },
-      {
-        "quarter": "2025-Q4",
-        "category": "Amazon.com and Drug Stores",
+        "quarter": "2026-Q1",
+        "category": "Grocery Stores, Wholesale Clubs, and Select Streaming Services",
         "status": "active",
-        "startDate": "October 01, 2025",
-        "endDate": "December 31, 2025"
+        "startDate": "January 01, 2026",
+        "endDate": "March 31, 2026"
+      },
+      {
+        "quarter": "2026-Q2",
+        "category": "Coming Soon",
+        "status": "future",
+        "startDate": "April 01, 2026",
+        "endDate": "June 30, 2026"
+      },
+      {
+        "quarter": "2026-Q3",
+        "category": "Coming Soon",
+        "status": "future",
+        "startDate": "July 01, 2026",
+        "endDate": "September 30, 2026"
+      },
+      {
+        "quarter": "2026-Q4",
+        "category": "Coming Soon",
+        "status": "future",
+        "startDate": "October 01, 2026",
+        "endDate": "December 31, 2026"
       }
     ],
-    "timestamp": "2025-11-28T09:27:41.156Z"
+    "timestamp": "2026-01-02T21:38:42.276Z"
   },
   "chase": {
     "source": "Chase Freedom",
-    "quarters": [
-      {
-        "quarter": "2025-Q4",
-        "category": "Old Navy®, Chase Travel℠, Department Stores, PayPal®",
-        "status": "active",
-        "startDate": "October 01, 2025",
-        "endDate": "December 31, 2025"
-      }
-    ],
-    "timestamp": "2025-11-28T09:27:41.604Z"
+    "quarters": [],
+    "timestamp": "2026-01-02T21:38:42.187Z"
   },
-  "parseDate": "2025-11-28T09:27:41.604Z"
+  "parseDate": "2026-01-02T21:38:42.276Z"
 }
