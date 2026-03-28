@@ -11,7 +11,7 @@
       },
       {
         "quarter": "2026-Q2",
-        "category": "Coming Soon",
+        "category": "Restaurants and Home Improvement Stores",
         "status": "future",
         "startDate": "April 01, 2026",
         "endDate": "June 30, 2026"
@@ -31,12 +31,20 @@
         "endDate": "December 31, 2026"
       }
     ],
-    "timestamp": "2026-02-28T09:33:55.596Z"
+    "timestamp": "2026-03-28T09:45:49.659Z"
   },
   "chase": {
     "source": "Chase Freedom",
-    "quarters": [],
-    "timestamp": "2026-02-28T09:33:55.588Z"
+    "quarters": [
+      {
+        "quarter": "2026-Q2",
+        "category": "Chase Travel℠",
+        "status": "active",
+        "startDate": "April 01, 2026",
+        "endDate": "June 30, 2026"
+      }
+    ],
+    "timestamp": "2026-03-28T09:45:49.596Z"
   },
-  "parseDate": "2026-02-28T09:33:55.596Z"
+  "parseDate": "2026-03-28T09:45:49.659Z"
 }
