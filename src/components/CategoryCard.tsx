@@ -4,8 +4,9 @@ import { ErrorCard } from "./ErrorCard";
 import { EmptyStateCard } from "./EmptyStateCard";
 import { CategoryActions } from "./CategoryActions";
 import { QuarterItem } from "./QuarterItem";
-import { getSourceColor } from "src/utils/sourceUtils";
-import { MapPinIcon, ChevronDownIcon } from "src/icons";
+import { getSourceColor, getButtonColor } from "src/utils/sourceUtils";
+import { generateCalendarUrlForQuarter } from "src/utils/calendarUtils";
+import { MapPinIcon, ChevronDownIcon, CalendarIcon } from "src/icons";
 
 interface CategoryCardProps {
   categoryResult: Category;
@@ -33,6 +34,10 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({
     (q) => q.status !== "active"
   );
 
+  const activeCalendarUrl = activeQuarter
+    ? generateCalendarUrlForQuarter(activeQuarter, categoryResult.source)
+    : "";
+
   return (
     <div
       className={`border rounded-lg p-6 transition-shadow duration-200 hover:shadow-md ${getSourceColor(
@@ -57,10 +62,19 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({
           <p className={"text-base leading-relaxed mb-2"}>
             {activeQuarter.category}
           </p>
-          <p className={"text-sm opacity-75"}>
+          <p className={"text-sm opacity-75 mb-3"}>
             {new Date(activeQuarter.startDate).toLocaleDateString()} -{" "}
             {new Date(activeQuarter.endDate).toLocaleDateString()}
           </p>
+          <a
+            className={`inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 no-underline ${getButtonColor(categoryResult.source)}`}
+            href={activeCalendarUrl}
+            rel={"noopener noreferrer"}
+            target={"_blank"}
+          >
+            <CalendarIcon className={"h-4 w-4 mr-2"} />
+            Add to Calendar
+          </a>
         </div>
       )}
 
@@ -83,7 +97,7 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({
           {showAllQuarters && (
             <div className={"mt-3"}>
               {otherQuarters.map((quarter, idx) => (
-                <QuarterItem key={idx} quarter={quarter} />
+                <QuarterItem key={idx} quarter={quarter} source={categoryResult.source} />
               ))}
             </div>
           )}
@@ -103,10 +117,7 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({
           </div>
         </div>
 
-        <CategoryActions
-          calendarUrl={categoryResult.calendarUrl}
-          source={categoryResult.source}
-        />
+        <CategoryActions source={categoryResult.source} />
       </div>
     </div>
   );

@@ -1,9 +1,6 @@
 import { useState, useEffect } from "react";
 import { ParseResults, WebsiteData } from "src/types";
-import {
-  generateCalendarUrl,
-  getNextUpdateDate,
-} from "src/utils/calendarUtils";
+import { getNextUpdateDate } from "src/utils/calendarUtils";
 
 const DATA_URL =
   "https://raw.githubusercontent.com/gges5110/credit-card-category-updater/refs/heads/main/data/categories.json";
@@ -30,14 +27,8 @@ export function useCategories() {
 
       // Transform raw parser data into website format
       const websiteData: WebsiteData = {
-        discover: {
-          ...rawData.discover,
-          calendarUrl: generateCalendarUrl(rawData.discover),
-        },
-        chase: {
-          ...rawData.chase,
-          calendarUrl: generateCalendarUrl(rawData.chase),
-        },
+        discover: { ...rawData.discover },
+        chase: { ...rawData.chase },
         lastUpdated: rawData.parseDate,
         nextUpdate: getNextUpdateDate(),
         status: "success",
@@ -51,14 +42,12 @@ export function useCategories() {
         discover: {
           quarters: [],
           error: "Error loading categories",
-          calendarUrl: "",
           source: "Discover",
           timestamp: "",
         },
         chase: {
           quarters: [],
           error: "Error loading categories",
-          calendarUrl: "",
           source: "Chase Freedom",
           timestamp: "",
         },

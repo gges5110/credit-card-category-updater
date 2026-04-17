@@ -1,4 +1,4 @@
-import { CategoryResult } from "src/types";
+import { QuarterInfo, Source } from "src/types";
 
 export function parseQuarterDates(quarter: string): {
   endDate: string;
@@ -48,28 +48,21 @@ function formatDateForCalendar(date: Date): string {
   return date.toISOString().split("T")[0].replace(/-/g, "");
 }
 
-export function generateCalendarUrl(categoryResult: CategoryResult): string {
-  // Find the active quarter, or fall back to the first quarter
-  const activeQuarter =
-    categoryResult.quarters.find((q) => q.status === "active") ||
-    categoryResult.quarters[0];
+export function generateCalendarUrlForQuarter(
+  quarter: QuarterInfo,
+  source: Source
+): string {
+  const { startDate, endDate } = parseQuarterDates(quarter.quarter);
 
-  if (!activeQuarter) {
-    return "";
-  }
-
-  const { startDate, endDate } = parseQuarterDates(activeQuarter.quarter);
-  console.log(startDate, endDate);
-
-  const title = `${categoryResult.source}: ${activeQuarter.category}`;
+  const title = `${source}: ${quarter.category}`;
   const dates = `${startDate}/${endDate}`;
 
   const details = [
     `Quarterly Credit Card Categories`,
     ``,
-    `Source: ${categoryResult.source}`,
-    `Quarter: ${activeQuarter.quarter}`,
-    `Categories: ${activeQuarter.category}`,
+    `Source: ${source}`,
+    `Quarter: ${quarter.quarter}`,
+    `Categories: ${quarter.category}`,
     ``,
     `Remember to activate your quarterly categories for maximum cashback!`,
     ``,

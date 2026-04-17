@@ -16,7 +16,6 @@ export interface CategoryResult {
 }
 
 export interface Category {
-  calendarUrl: string;
   error?: string;
   quarters: QuarterInfo[];
   source: Source;

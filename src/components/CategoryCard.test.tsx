@@ -6,8 +6,6 @@ import { Category } from "src/types";
 
 describe("CategoryCard", () => {
   const mockTimestamp = "2025-10-01T00:00:00.000Z";
-  const mockCalendarUrl = "https://example.com/calendar";
-
   describe("Error state", () => {
     it("renders ErrorCard when error exists", () => {
       const categoryResult: Category = {
@@ -15,7 +13,6 @@ describe("CategoryCard", () => {
         error: "Network error",
         quarters: [],
         timestamp: mockTimestamp,
-        calendarUrl: mockCalendarUrl,
       };
 
       render(<CategoryCard categoryResult={categoryResult} />);
@@ -30,7 +27,6 @@ describe("CategoryCard", () => {
         source: "Discover",
         quarters: [],
         timestamp: mockTimestamp,
-        calendarUrl: mockCalendarUrl,
       };
 
       render(<CategoryCard categoryResult={categoryResult} />);
@@ -53,7 +49,6 @@ describe("CategoryCard", () => {
           },
         ],
         timestamp: mockTimestamp,
-        calendarUrl: mockCalendarUrl,
       };
 
       render(<CategoryCard categoryResult={categoryResult} />);
@@ -78,7 +73,6 @@ describe("CategoryCard", () => {
           },
         ],
         timestamp: mockTimestamp,
-        calendarUrl: mockCalendarUrl,
       };
 
       render(<CategoryCard categoryResult={categoryResult} />);
@@ -111,7 +105,6 @@ describe("CategoryCard", () => {
           },
         ],
         timestamp: mockTimestamp,
-        calendarUrl: mockCalendarUrl,
       };
 
       render(<CategoryCard categoryResult={categoryResult} />);
@@ -140,7 +133,6 @@ describe("CategoryCard", () => {
           },
         ],
         timestamp: mockTimestamp,
-        calendarUrl: mockCalendarUrl,
       };
 
       render(<CategoryCard categoryResult={categoryResult} />);
@@ -174,7 +166,6 @@ describe("CategoryCard", () => {
           },
         ],
         timestamp: mockTimestamp,
-        calendarUrl: mockCalendarUrl,
       };
 
       render(<CategoryCard categoryResult={categoryResult} />);
@@ -212,7 +203,6 @@ describe("CategoryCard", () => {
           },
         ],
         timestamp: mockTimestamp,
-        calendarUrl: mockCalendarUrl,
       };
 
       render(<CategoryCard categoryResult={categoryResult} />);
@@ -240,7 +230,6 @@ describe("CategoryCard", () => {
           },
         ],
         timestamp: mockTimestamp,
-        calendarUrl: mockCalendarUrl,
       };
 
       render(<CategoryCard categoryResult={categoryResult} />);
@@ -261,7 +250,6 @@ describe("CategoryCard", () => {
           },
         ],
         timestamp: mockTimestamp,
-        calendarUrl: mockCalendarUrl,
       };
 
       render(<CategoryCard categoryResult={categoryResult} />);
@@ -284,7 +272,6 @@ describe("CategoryCard", () => {
           },
         ],
         timestamp: mockTimestamp,
-        calendarUrl: mockCalendarUrl,
       };
 
       render(<CategoryCard categoryResult={categoryResult} />);
@@ -307,7 +294,6 @@ describe("CategoryCard", () => {
           },
         ],
         timestamp: mockTimestamp,
-        calendarUrl: mockCalendarUrl,
       };
 
       render(<CategoryCard categoryResult={categoryResult} />);
@@ -328,7 +314,6 @@ describe("CategoryCard", () => {
           },
         ],
         timestamp: mockTimestamp,
-        calendarUrl: mockCalendarUrl,
       };
 
       render(<CategoryCard categoryResult={categoryResult} />);

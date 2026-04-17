@@ -5,14 +5,14 @@
       {
         "quarter": "2026-Q1",
         "category": "Grocery Stores, Wholesale Clubs, and Select Streaming Services",
-        "status": "active",
+        "status": "expired",
         "startDate": "January 01, 2026",
         "endDate": "March 31, 2026"
       },
       {
         "quarter": "2026-Q2",
         "category": "Restaurants and Home Improvement Stores",
-        "status": "future",
+        "status": "active",
         "startDate": "April 01, 2026",
         "endDate": "June 30, 2026"
       },
@@ -31,20 +31,20 @@
         "endDate": "December 31, 2026"
       }
     ],
-    "timestamp": "2026-03-28T09:45:49.659Z"
+    "timestamp": "2026-04-14T00:00:00.000Z"
   },
   "chase": {
     "source": "Chase Freedom",
     "quarters": [
       {
         "quarter": "2026-Q2",
-        "category": "Chase Travel℠",
+        "category": "Amazon, Whole Foods Market, Chase Travel, Feeding America",
         "status": "active",
         "startDate": "April 01, 2026",
         "endDate": "June 30, 2026"
       }
     ],
-    "timestamp": "2026-03-28T09:45:49.596Z"
+    "timestamp": "2026-04-14T00:00:00.000Z"
   },
-  "parseDate": "2026-03-28T09:45:49.659Z"
+  "parseDate": "2026-04-14T00:00:00.000Z"
 }
