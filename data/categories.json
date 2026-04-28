@@ -31,20 +31,20 @@
         "endDate": "December 31, 2026"
       }
     ],
-    "timestamp": "2026-04-14T00:00:00.000Z"
+    "timestamp": "2026-04-28T11:08:20.846Z"
   },
   "chase": {
     "source": "Chase Freedom",
     "quarters": [
       {
         "quarter": "2026-Q2",
-        "category": "Amazon, Whole Foods Market, Chase Travel, Feeding America",
+        "category": "Amazon, Chase Travel℠, Feeding America®",
         "status": "active",
         "startDate": "April 01, 2026",
         "endDate": "June 30, 2026"
       }
     ],
-    "timestamp": "2026-04-14T00:00:00.000Z"
+    "timestamp": "2026-04-28T11:08:20.821Z"
   },
-  "parseDate": "2026-04-14T00:00:00.000Z"
+  "parseDate": "2026-04-28T11:08:20.846Z"
 }
