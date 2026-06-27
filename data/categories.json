@@ -18,7 +18,7 @@
       },
       {
         "quarter": "2026-Q3",
-        "category": "Coming Soon",
+        "category": "Gas Stations, Transportation and Drug Stores",
         "status": "future",
         "startDate": "July 01, 2026",
         "endDate": "September 30, 2026"
@@ -31,20 +31,12 @@
         "endDate": "December 31, 2026"
       }
     ],
-    "timestamp": "2026-05-28T12:36:08.703Z"
+    "timestamp": "2026-06-27T20:49:49.373Z"
   },
   "chase": {
     "source": "Chase Freedom",
-    "quarters": [
-      {
-        "quarter": "2026-Q2",
-        "category": "Amazon, Chase Travel℠, Feeding America®",
-        "status": "active",
-        "startDate": "April 01, 2026",
-        "endDate": "June 30, 2026"
-      }
-    ],
-    "timestamp": "2026-05-28T12:36:09.132Z"
+    "quarters": [],
+    "timestamp": "2026-06-27T20:49:49.362Z"
   },
-  "parseDate": "2026-05-28T12:36:09.132Z"
+  "parseDate": "2026-06-27T20:49:49.373Z"
 }
