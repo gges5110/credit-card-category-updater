@@ -31,16 +31,17 @@ export const CHASE_CATEGORY_KEYWORDS = [
   "fitness",
   // Charitable
   "feeding america",
+  "united way",
 ] as const;
 
 export const CHASE_CATEGORY_SELECTORS = [
-  "h2, h3, h4",      // headings — most common
-  "li",              // list items — fallback if categories are bulleted
-  "p, strong",       // paragraphs / bold text — last resort
+  "h2, h3, h4", // headings — most common
+  "li", // list items — fallback if categories are bulleted
+  "p, strong", // paragraphs / bold text — last resort
 ] as const;
 
 export const CHASE_FEATURED_BLOCK_SELECTOR =
-  '[data-feature="featured-block"]' as const;
+  '[data-feature="mds-unified-feature-block-container"]' as const;
 
 export const MONTH_TO_QUARTER_MAP = {
   march: "Q1",
