@@ -12,14 +12,14 @@
       {
         "quarter": "2026-Q2",
         "category": "Restaurants and Home Improvement Stores",
-        "status": "active",
+        "status": "expired",
         "startDate": "April 01, 2026",
         "endDate": "June 30, 2026"
       },
       {
         "quarter": "2026-Q3",
         "category": "Gas Stations, Transportation and Drug Stores",
-        "status": "future",
+        "status": "active",
         "startDate": "July 01, 2026",
         "endDate": "September 30, 2026"
       },
@@ -31,7 +31,7 @@
         "endDate": "December 31, 2026"
       }
     ],
-    "timestamp": "2026-06-28T03:06:21.295Z"
+    "timestamp": "2026-07-01T11:49:47.479Z"
   },
   "chase": {
     "source": "Chase Freedom",
@@ -44,7 +44,7 @@
         "endDate": "September 30, 2026"
       }
     ],
-    "timestamp": "2026-06-28T03:06:21.242Z"
+    "timestamp": "2026-07-01T11:49:47.454Z"
   },
-  "parseDate": "2026-06-28T03:06:21.295Z"
+  "parseDate": "2026-07-01T11:49:47.479Z"
 }
