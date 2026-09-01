@@ -25,13 +25,13 @@
       },
       {
         "quarter": "2026-Q4",
-        "category": "Coming Soon",
+        "category": "Restaurants, Entertainment and Utilities",
         "status": "future",
         "startDate": "October 01, 2026",
         "endDate": "December 31, 2026"
       }
     ],
-    "timestamp": "2026-08-31T16:29:13.972Z"
+    "timestamp": "2026-09-01T13:46:35.109Z"
   },
   "chase": {
     "source": "Chase Freedom",
@@ -44,7 +44,7 @@
         "endDate": "September 30, 2026"
       }
     ],
-    "timestamp": "2026-08-31T16:29:13.804Z"
+    "timestamp": "2026-09-01T13:46:35.441Z"
   },
-  "parseDate": "2026-08-31T16:29:13.972Z"
+  "parseDate": "2026-09-01T13:46:35.441Z"
 }
