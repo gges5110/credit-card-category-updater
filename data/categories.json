@@ -31,20 +31,12 @@
         "endDate": "December 31, 2026"
       }
     ],
-    "timestamp": "2026-09-11T13:05:20.299Z"
+    "timestamp": "2026-09-16T13:49:32.755Z"
   },
   "chase": {
     "source": "Chase Freedom",
-    "quarters": [
-      {
-        "quarter": "2026-Q3",
-        "category": "Gas Stations, Public Transit, EV Charging, Select Live Entertainment, United Way®",
-        "status": "active",
-        "startDate": "July 01, 2026",
-        "endDate": "September 30, 2026"
-      }
-    ],
-    "timestamp": "2026-09-11T13:05:20.405Z"
+    "quarters": [],
+    "timestamp": "2026-09-16T13:49:33.402Z"
   },
-  "parseDate": "2026-09-11T13:05:20.405Z"
+  "parseDate": "2026-09-16T13:49:33.402Z"
 }
